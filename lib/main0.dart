@@ -149,7 +149,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class SellPage extends StatelessWidget {
-  const SellPage({Key? key, required this.title}) : super(key: key);
+  const SellPage(Set<Key?> set, {Key? key, required this.title}) : super(key: key);
   final String title;
   @override
   Widget build(BuildContext context) {
@@ -251,3 +251,4 @@ class SellPage extends StatelessWidget {
     return scaffold;
   }
 }
+

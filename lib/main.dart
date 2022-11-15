@@ -1,6 +1,6 @@
-// ignore_for_file: unnecessary_const
-
 import 'package:flutter/material.dart';
+import 'package:odysscompta/Selling.dart';
+import 'package:odysscompta/Buying.dart';
 
 void main() {
   runApp(const MyApp());
@@ -52,11 +52,17 @@ class MyHomePage extends StatelessWidget {
                       ),
                       minimumSize: const Size(100, 0),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SellPage()),
+                      );
+                    },
                     child: const Text(
                       "Vente",
                       style: TextStyle(
-                        color: const Color(0xffffffff),
+                        color: Color(0xffffffff),
                       ),
                     ),
                   )),
@@ -70,7 +76,13 @@ class MyHomePage extends StatelessWidget {
                       ),
                       minimumSize: const Size(100, 0),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const BuyPage()),
+                      );
+                    },
                     child: const Text(
                       "Dépense",
                       style: TextStyle(
@@ -117,7 +129,7 @@ class MyHomePage extends StatelessWidget {
             ],
           ),
           Container(
-              padding: const EdgeInsets.only(top: 16, left: 8, right: 8),
+              padding: const EdgeInsets.only(top: 25, left: 8, right: 8),
               width: 500,
               height: 100,
               child: TextButton(
@@ -139,3 +151,5 @@ class MyHomePage extends StatelessWidget {
         ])));
   }
 }
+
+
