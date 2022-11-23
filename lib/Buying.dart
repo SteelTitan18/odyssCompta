@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:odysscompta/Result.dart';
 import 'package:odysscompta/main.dart';
+import 'package:provider/provider.dart';
+
+import 'RecetteProvider.dart';
 
 class BuyPage extends StatefulWidget {
   const BuyPage({super.key});
@@ -11,12 +15,18 @@ class BuyPage extends StatefulWidget {
 class _BuyPageState extends State<BuyPage> {
   static const _appTitle = 'Achats';
   final achats = <String>[];
+  final _ventes = {};
   var total = 0;
   final labelController = TextEditingController();
   final priceController = TextEditingController();
 
+  
+
   @override
   Widget build(BuildContext context) {
+
+    final providerRecette = Provider.of<RecetteProvider>(context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: _appTitle,
@@ -105,7 +115,7 @@ class _BuyPageState extends State<BuyPage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const BuyPage()),
+                    MaterialPageRoute(builder: (context) => const ResultPage()),
                   );
                 },
                 child: const Text('Suivant'),
@@ -115,9 +125,12 @@ class _BuyPageState extends State<BuyPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
+            providerRecette.achats['Articles']?.add(labelController.text);
+            providerRecette.achats['Prix']?.add(priceController.text);
             setState(() {
               achats.add(
                   "${labelController.text}\t\t\t\t\t\t${priceController.text}");
+              providerRecette.
               total = total + int.parse(priceController.text);
               labelController.clear();
               priceController.clear();

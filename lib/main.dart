@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:odysscompta/Selling.dart';
 import 'package:odysscompta/Buying.dart';
+import 'package:provider/provider.dart';
+
+import 'RecetteProvider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+        providers: [ChangeNotifierProvider(create: (_) => RecetteProvider())],
+        child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -13,15 +20,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Odyssée des Saveurs : Comptabilité',
-      theme: ThemeData(
-        primarySwatch: Colors.brown,
-      ),
-      home: const MyHomePage(
+        debugShowCheckedModeBanner: false,
         title: 'Odyssée des Saveurs : Comptabilité',
-      ),
-    );
+        theme: ThemeData(
+          primarySwatch: Colors.brown,
+        ),
+        home: ChangeNotifierProvider<RecetteProvider>(
+          create: (_) => RecetteProvider(),
+          //builder: (_) => RecetteProvider(),
+          child: const MyHomePage(
+            title: 'Odyssée des Saveurs : Comptabilité',
+          ),
+        ));
   }
 }
 
@@ -55,8 +65,7 @@ class MyHomePage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const SellPage()),
+                        MaterialPageRoute(builder: (context) => SellPage()),
                       );
                     },
                     child: const Text(
@@ -77,11 +86,11 @@ class MyHomePage extends StatelessWidget {
                       minimumSize: const Size(100, 0),
                     ),
                     onPressed: () {
-                      Navigator.push(
+                      /*Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const BuyPage()),
-                      );
+                            builder: (context) => BuyPage()),
+                      );*/
                     },
                     child: const Text(
                       "Dépense",
@@ -151,5 +160,3 @@ class MyHomePage extends StatelessWidget {
         ])));
   }
 }
-
-
