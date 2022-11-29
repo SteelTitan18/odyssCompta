@@ -20,11 +20,8 @@ class _BuyPageState extends State<BuyPage> {
   final labelController = TextEditingController();
   final priceController = TextEditingController();
 
-  
-
   @override
   Widget build(BuildContext context) {
-
     final providerRecette = Provider.of<RecetteProvider>(context);
 
     return MaterialApp(
@@ -37,36 +34,36 @@ class _BuyPageState extends State<BuyPage> {
         appBar: AppBar(
           title: const Text(_appTitle),
           actions: <Widget>[
-            IconButton(onPressed: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const MyHomePage(title: "Odyssée des Saveurs : Comptabilité")),
-              );
-            }, icon: const Icon(Icons.home))
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MyHomePage(
+                            title: "Odyssée des Saveurs : Comptabilité")),
+                  );
+                },
+                icon: const Icon(Icons.home))
           ],
         ),
         body: Column(
           children: [
-            TextField(
-              autofillHints: const [
-                "Taxi",
-                "Boeuf",
-                "Carotte",
-                "Bettérave",
-                "Poisson",
-                "Taxi",
-                "Plastique"
-              ],
-              controller: labelController,
-              decoration: const InputDecoration(
-                hintText: "Article",
-              ),
-            ),
-            TextField(
-              controller: priceController,
-              decoration: const InputDecoration(hintText: "Prix"),
-            ),
+            Container(
+                width: 200,
+                padding: const EdgeInsets.fromLTRB(0, 16, 0, 3),
+                child: TextField(
+                  controller: labelController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(), hintText: "Article"),
+                )),
+            Container(
+                width: 200,
+                padding: const EdgeInsets.fromLTRB(0, 16, 0, 3),
+                child: TextField(
+                  controller: priceController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(), hintText: "Prix"),
+                )),
             Expanded(
               child: ListView.builder(
                 itemCount: achats.length,
@@ -83,26 +80,12 @@ class _BuyPageState extends State<BuyPage> {
               ),
             ),
             Container(
+              color: Colors.blueAccent,
                 padding: const EdgeInsets.all(8.0),
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.brown,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    minimumSize: const Size(100, 0),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      achats.add("\n\n\t\t\t\t\t\tTotal == $total");
-                    });
-                  },
-                  child: const Text(
-                    "Calculer",
-                    style: TextStyle(
-                      color: Color(0xffffffff),
-                    ),
-                  ),
+                child: Text(
+                  style:
+                      const TextStyle(fontSize: 20),
+                  total.toString(),
                 )),
             Container(
               padding: const EdgeInsets.all(8.0),
@@ -130,8 +113,9 @@ class _BuyPageState extends State<BuyPage> {
             setState(() {
               achats.add(
                   "${labelController.text}\t\t\t\t\t\t${priceController.text}");
-              providerRecette.
               total = total + int.parse(priceController.text);
+              providerRecette.total =
+                  providerRecette.total - int.parse(priceController.text);
               labelController.clear();
               priceController.clear();
             });
