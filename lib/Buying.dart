@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:odysscompta/Result.dart';
 import 'package:odysscompta/main.dart';
 import 'package:provider/provider.dart';
-
 import 'RecetteProvider.dart';
 
 class BuyPage extends StatefulWidget {
@@ -14,8 +13,7 @@ class BuyPage extends StatefulWidget {
 
 class _BuyPageState extends State<BuyPage> {
   static const _appTitle = 'Achats';
-  final achats = <String>[];
-  final _ventes = {};
+  final achats = <Text>[];
   var total = 0;
   final labelController = TextEditingController();
   final priceController = TextEditingController();
@@ -74,18 +72,17 @@ class _BuyPageState extends State<BuyPage> {
                     key: Key('$achat$index'),
                     onDismissed: (direction) => achats.removeAt(index),
                     background: Container(color: Colors.red),
-                    child: ListTile(title: Text(achat)),
+                    child: ListTile(title: achat),
                   );
                 },
               ),
             ),
             Container(
-              color: Colors.blueAccent,
-                padding: const EdgeInsets.all(8.0),
+                color: Colors.brown,
+                padding: const EdgeInsets.fromLTRB(100, 8, 100, 8),
                 child: Text(
-                  style:
-                      const TextStyle(fontSize: 20),
-                  total.toString(),
+                  style: const TextStyle(fontSize: 20, color: Colors.white),
+                  "Total : $total",
                 )),
             Container(
               padding: const EdgeInsets.all(8.0),
@@ -108,11 +105,17 @@ class _BuyPageState extends State<BuyPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            providerRecette.achats['Articles']?.add(labelController.text);
-            providerRecette.achats['Prix']?.add(priceController.text);
+            if (!(providerRecette.achats['Articles']!.contains(labelController.text))) {
+              providerRecette.achats['Articles']?.add(labelController.text);
+              providerRecette.achats['Prix']?.add(priceController.text);
+            }
             setState(() {
-              achats.add(
-                  "${labelController.text}\t\t\t\t\t\t${priceController.text}");
+              Text article = Text(
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 20, color: Colors.white, backgroundColor: Colors.blueGrey),
+                "${labelController.text}\t\t\t\t\t\t${priceController.text}",
+              );
+              achats.add(article);
               total = total + int.parse(priceController.text);
               providerRecette.total =
                   providerRecette.total - int.parse(priceController.text);

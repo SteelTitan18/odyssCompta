@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:odysscompta/Buying.dart';
 import 'package:odysscompta/RecetteProvider.dart';
@@ -113,6 +112,9 @@ class SellPage extends StatelessWidget {
                 providerRecette.ventes['feuill_g'] = 0;
                 providerRecette.ventes['pain_choc'] = 0;
                 providerRecette.ventes['cakes'] = 0;
+
+                providerRecette.achats['Articles'] = [];
+                providerRecette.achats['Prix'] = [];
 
                 providerRecette.ventes['croiss'] = ((croiss.text != "") ? int.parse(croiss.text) :0) * 200;
                 providerRecette.total += providerRecette.ventes['croiss']!;
