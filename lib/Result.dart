@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'main.dart';
 import 'package:provider/provider.dart';
 import 'RecetteProvider.dart';
+import 'package:odysscompta/Sheets_Insertion.dart';
 
 class ResultPage extends StatelessWidget {
   const ResultPage({super.key});
+  static Map<String, dynamic> dico = {};
 
   @override
   Widget build(BuildContext context) {
     final providerRecette = Provider.of<RecetteProvider>(context);
+
     var total_Sell = 0;
     for (var value in providerRecette.ventes.values) {
       total_Sell = total_Sell + value;
@@ -23,6 +26,16 @@ class ResultPage extends StatelessWidget {
     final totalBuy = TextEditingController(text: total_Buy.toString());
     final recette =
         TextEditingController(text: providerRecette.total.toString());
+
+    dico = {
+      'DATE': providerRecette.date.toString(),
+      'VENTE': total_Sell.toString(),
+      'MONNAIE': '8000',
+      'DEPENSES': "${providerRecette.achats_label.toString()}\nTotal = $total_Buy",
+      'A RENDRE': providerRecette.total,
+      'PART BENE': '500',
+      'RECETTE': providerRecette.total - 500
+    };
 
     return Scaffold(
       appBar: AppBar(
@@ -81,6 +94,7 @@ class ResultPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     )),
                 onPressed: () {
+                  registration(dico);
                   Navigator.push(
                     context,
                     MaterialPageRoute(

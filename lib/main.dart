@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:odysscompta/Selling.dart';
-import 'package:odysscompta/Buying.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'RecetteProvider.dart';
 
@@ -11,6 +11,13 @@ void main() {
         providers: [ChangeNotifierProvider(create: (_) => RecetteProvider())],
         child: const MyApp()),
   );
+}
+
+final Uri url = Uri.parse(
+    "https://docs.google.com/spreadsheets/d/1NfYGeGzFMZrX0bGFFCjKM2KmA0-vL8-q-PnRJC-v38k/edit#gid=0");
+
+void account_doc() async {
+  if (!await launchUrl(url)) throw 'Fichier de compte inaccessible';
 }
 
 class MyApp extends StatelessWidget {
@@ -149,7 +156,9 @@ class MyHomePage extends StatelessWidget {
                   ),
                   minimumSize: const Size(100, 0),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  account_doc();
+                },
                 child: const Text(
                   "Fichier de compte",
                   style: TextStyle(

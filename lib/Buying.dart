@@ -14,6 +14,7 @@ class BuyPage extends StatefulWidget {
 class _BuyPageState extends State<BuyPage> {
   static const _appTitle = 'Achats';
   final achats = <Text>[];
+  var achatslabel = '';
   var total = 0;
   final labelController = TextEditingController();
   final priceController = TextEditingController();
@@ -97,6 +98,7 @@ class _BuyPageState extends State<BuyPage> {
                     context,
                     MaterialPageRoute(builder: (context) => const ResultPage()),
                   );
+                  providerRecette.achats_label = achatslabel;
                 },
                 child: const Text('Suivant'),
               ),
@@ -119,6 +121,7 @@ class _BuyPageState extends State<BuyPage> {
               total = total + int.parse(priceController.text);
               providerRecette.total =
                   providerRecette.total - int.parse(priceController.text);
+              achatslabel = "$achatslabel${labelController.text}\t\t\t${priceController.text}\n";
               labelController.clear();
               priceController.clear();
             });

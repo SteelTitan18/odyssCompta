@@ -6,6 +6,7 @@ import 'main.dart';
 
 class SellPage extends StatelessWidget {
   SellPage({super.key});
+  final date = TextEditingController(text: DateTime.now().toString());
   final croiss = TextEditingController();
   final croiss_choc = TextEditingController();
   final feuill = TextEditingController();
@@ -15,7 +16,6 @@ class SellPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final providerRecette = Provider.of<RecetteProvider>(context);
 
     return Scaffold(
@@ -41,6 +41,17 @@ class SellPage extends StatelessWidget {
           Container(
             padding: const EdgeInsets.fromLTRB(16, 100, 16, 16),
             child: TextField(
+              controller: date,
+              //initialValue: '0',
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Ne pas remplir si c\'est le compte du jour',
+                  labelText: 'DATE DE LA VENTE'),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
               controller: croiss,
               //initialValue: '0',
               decoration: const InputDecoration(
@@ -55,9 +66,9 @@ class SellPage extends StatelessWidget {
                 controller: croiss_choc,
                 //initialValue: '0',
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Nombre...',
-                    labelText: 'Croissants au chocolat',
+                  border: OutlineInputBorder(),
+                  hintText: 'Nombre...',
+                  labelText: 'Croissants au chocolat',
                 ),
               )),
           Container(
@@ -105,6 +116,11 @@ class SellPage extends StatelessWidget {
             child: ElevatedButton(
               style: null,
               onPressed: () {
+                if (date.text.toString() != '') {
+                  providerRecette.date = date.text.toString();
+                } else {
+                  providerRecette.date = DateTime.now().toString();
+                }
                 providerRecette.total = 0;
                 providerRecette.ventes['croiss'] = 0;
                 providerRecette.ventes['croiss_choc'] = 0;
@@ -116,23 +132,33 @@ class SellPage extends StatelessWidget {
                 providerRecette.achats['Articles'] = [];
                 providerRecette.achats['Prix'] = [];
 
-                providerRecette.ventes['croiss'] = ((croiss.text != "") ? int.parse(croiss.text) :0) * 200;
+                providerRecette.ventes['croiss'] =
+                    ((croiss.text != "") ? int.parse(croiss.text) : 0) * 200;
                 providerRecette.total += providerRecette.ventes['croiss']!;
-                providerRecette.ventes['croiss_choc'] = ((croiss_choc.text != "") ? int.parse(croiss_choc.text) :0) * 200;
+                providerRecette.ventes['croiss_choc'] =
+                    ((croiss_choc.text != "")
+                            ? int.parse(croiss_choc.text)
+                            : 0) *
+                        200;
                 providerRecette.total += providerRecette.ventes['croiss_choc']!;
-                providerRecette.ventes['feuill'] = ((feuill.text != "") ? int.parse(feuill.text) :0) * 200;
+                providerRecette.ventes['feuill'] =
+                    ((feuill.text != "") ? int.parse(feuill.text) : 0) * 200;
                 providerRecette.total += providerRecette.ventes['feuill']!;
-                providerRecette.ventes['feuill_g'] = ((feuill_g.text != "") ? int.parse(feuill_g.text) :0) * 500;
+                providerRecette.ventes['feuill_g'] =
+                    ((feuill_g.text != "") ? int.parse(feuill_g.text) : 0) *
+                        500;
                 providerRecette.total += providerRecette.ventes['feuill_g']!;
-                providerRecette.ventes['pain_choc'] = ((pain_choc.text != "") ? int.parse(pain_choc.text) :0) * 250;
+                providerRecette.ventes['pain_choc'] =
+                    ((pain_choc.text != "") ? int.parse(pain_choc.text) : 0) *
+                        250;
                 providerRecette.total += providerRecette.ventes['pain_choc']!;
-                providerRecette.ventes['cakes'] = ((cakes.text != "") ? int.parse(cakes.text) :0) * 150;
+                providerRecette.ventes['cakes'] =
+                    ((cakes.text != "") ? int.parse(cakes.text) : 0) * 150;
                 providerRecette.total += providerRecette.ventes['cakes']!;
                 print(providerRecette.total);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const BuyPage()),
+                  MaterialPageRoute(builder: (context) => const BuyPage()),
                 );
               },
               child: const Text('Suivant'),
