@@ -11,6 +11,7 @@ class RecetteProvider extends ChangeNotifier {
     'feuill': 0,
     'feuill_g': 0,
     'pain_choc': 0,
+    'pain_rais': 0,
     'cakes': 0
   };
   Map<String, List> _achats = {'Articles':[], 'Prix': []};
