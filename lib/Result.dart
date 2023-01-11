@@ -94,7 +94,7 @@ class ResultPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     )),
                 onPressed: () {
-                  registration(dico);
+                  dailyRegistration(dico);
                   Navigator.push(
                     context,
                     MaterialPageRoute(

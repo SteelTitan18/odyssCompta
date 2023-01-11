@@ -27,7 +27,7 @@ const _credentials = r'''
 /// [YOUR_SPREADSHEET_ID] in the path is the id your need
 const _spreadsheetId = '1NfYGeGzFMZrX0bGFFCjKM2KmA0-vL8-q-PnRJC-v38k/';
 
-Future<void> registration(Map<String, dynamic> dico) async {
+Future<void> dailyRegistration(Map<String, dynamic> dico) async {
   // init GSheets
   final gsheets = GSheets(_credentials);
   // fetch spreadsheet by its id
@@ -37,6 +37,24 @@ Future<void> registration(Map<String, dynamic> dico) async {
   var sheet = ss.worksheetByTitle('Ventes_Quotidiennes');
   // create worksheet if it does not exist yet
   sheet ??= await ss.addWorksheet('Ventes_Quotidiennes');
+
+  await sheet.values.map.appendRow(dico);
+  // prints {index: 5, letter: f, number: 6, label: f6}
+  if (kDebugMode) {
+    print(await sheet.values.map.lastRow());
+  }
+}
+
+Future<void> buyingRegistration(Map<String, dynamic> dico) async {
+  // init GSheets
+  final gsheets = GSheets(_credentials);
+  // fetch spreadsheet by its id
+  final ss = await gsheets.spreadsheet(_spreadsheetId);
+
+  // get worksheet by its title
+  var sheet = ss.worksheetByTitle('Dépenses');
+  // create worksheet if it does not exist yet
+  sheet ??= await ss.addWorksheet('Dépenses');
 
   await sheet.values.map.appendRow(dico);
   // prints {index: 5, letter: f, number: 6, label: f6}

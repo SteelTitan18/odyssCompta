@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:odysscompta/Selling.dart';
+import 'package:odysscompta/Simple_Buying.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -93,11 +94,11 @@ class MyHomePage extends StatelessWidget {
                       minimumSize: const Size(100, 0),
                     ),
                     onPressed: () {
-                      /*Navigator.push(
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => BuyPage()),
-                      );*/
+                            builder: (context) => const Simple_BuyPage()),
+                      );
                     },
                     child: const Text(
                       "Dépense",
