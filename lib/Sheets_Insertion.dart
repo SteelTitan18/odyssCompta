@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:gsheets/gsheets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 
 /// Your google auth credentials
@@ -61,4 +63,16 @@ Future<void> buyingRegistration(Map<String, dynamic> dico) async {
   if (kDebugMode) {
     print(await sheet.values.map.lastRow());
   }
+}
+
+void ShowToast(){
+  Fluttertoast.showToast(
+      msg: "Enregistrement effectué avec succès !",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.grey,
+      textColor: Colors.white,
+      fontSize: 16.0
+  );
 }

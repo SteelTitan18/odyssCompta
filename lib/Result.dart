@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'main.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'RecetteProvider.dart';
 import 'package:odysscompta/Sheets_Insertion.dart';
+import 'package:confirm_dialog/confirm_dialog.dart';
+
+import 'main.dart';
 
 class ResultPage extends StatelessWidget {
   const ResultPage({super.key});
@@ -31,7 +34,8 @@ class ResultPage extends StatelessWidget {
       'DATE': providerRecette.date.toString(),
       'VENTE': total_Sell.toString(),
       'MONNAIE': '8000',
-      'DEPENSES': "${providerRecette.achats_label.toString()}\nTotal = $total_Buy",
+      'DEPENSES':
+          "${providerRecette.achats_label.toString()}\nTotal = $total_Buy",
       'A RENDRE': providerRecette.total,
       'PART BENE': '500',
       'RECETTE': providerRecette.total - 500
@@ -93,14 +97,31 @@ class ResultPage extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     )),
-                onPressed: () {
-                  dailyRegistration(dico);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const MyHomePage(title: "Odyssée des Saveurs")),
-                  );
+                onPressed: () async {
+                  if (await confirm(context,
+                      title: const Text('Confirmation'),
+                      content:
+                          const Text('Voulez-vous enregistré cette vente ?'),
+                      textOK: const Text('Oui'),
+                      textCancel: const Text('Non'))) {
+                    dailyRegistration(dico);
+                    Fluttertoast.showToast(
+                        msg: "Enregistrement effectué avec succès !",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.grey,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const MyHomePage(title: "Odyssée des Saveurs")),
+                    );
+                  } else {
+                    Navigator.pop(context);
+                  }
                 },
                 child: const Text(style: TextStyle(fontSize: 30), 'Terminer'),
               ),
