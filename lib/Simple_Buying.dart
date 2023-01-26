@@ -1,6 +1,7 @@
+import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:odysscompta/Sheets_Insertion.dart';
-import 'package:odysscompta/Sheets_Insertion.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:odysscompta/Sheets_Manip.dart';
 import 'package:odysscompta/main.dart';
 
 class Simple_BuyPage extends StatefulWidget {
@@ -23,10 +24,10 @@ class _Simple_BuyPageState extends State<Simple_BuyPage> {
   var accounts = ['Vente', 'Personnel'];
 
   Map<String, dynamic> dico = {
-  'DATE': DateTime.now().toString(),
-  'MONTANT': '',
-  'COMPTE': '',
-  'MOTIF': "",
+    'DATE': DateTime.now().toString(),
+    'MONTANT': '',
+    'COMPTE': '',
+    'MOTIF': "",
   };
 
   @override
@@ -119,14 +120,31 @@ class _Simple_BuyPageState extends State<Simple_BuyPage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     )),
-                onPressed: () {
+                onPressed: () async {
+                  if (await confirm(context,
+                      title: const Text('Confirmation'),
+                      content:
+                          const Text('Voulez-vous enregistré cet achat ?'),
+                      textOK: const Text('Oui'),
+                      textCancel: const Text('Non'))) {
                     buyingRegistration(dico);
+                    Fluttertoast.showToast(
+                        msg: "Achat enregistré avec succès !",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.grey,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                          const MyHomePage(title: "Odyssée des Saveurs")),
+                              const MyHomePage(title: "Odyssée des Saveurs")),
                     );
+                  } else {
+                    Navigator.pop(context);
+                  }
                 },
                 child: const Text('Enregistrer'),
               ),
@@ -146,7 +164,7 @@ class _Simple_BuyPageState extends State<Simple_BuyPage> {
               );
               achats.add(article);
               total = total + int.parse(priceController.text);
-                  achatslabel =
+              achatslabel =
                   "$achatslabel${labelController.text}\t\t\t${priceController.text}\n";
               dico['MONTANT'] = total;
               dico['MOTIF'] = achatslabel;

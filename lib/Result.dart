@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'RecetteProvider.dart';
-import 'package:odysscompta/Sheets_Insertion.dart';
+import 'package:odysscompta/Sheets_Manip.dart';
 import 'package:confirm_dialog/confirm_dialog.dart';
 
 import 'main.dart';
