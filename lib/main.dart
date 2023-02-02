@@ -1,9 +1,11 @@
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:odysscompta/LostConnectionPage.dart';
 import 'package:odysscompta/Selling.dart';
 import 'package:odysscompta/Simple_Buying.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'RecetteProvider.dart';
 
 void main() {
@@ -70,11 +72,19 @@ class MyHomePage extends StatelessWidget {
                       ),
                       minimumSize: const Size(100, 0),
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SellPage()),
-                      );
+                    onPressed: () async {
+                      try {
+                        await InternetAddress.lookup('www.google.com');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SellPage()),
+                        );
+                      } on SocketException {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => LostConnectionPage()),
+                        );
+                      }
                     },
                     child: const Text(
                       "Vente",

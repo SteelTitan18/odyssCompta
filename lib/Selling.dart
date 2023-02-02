@@ -64,6 +64,7 @@ class SellPage extends StatelessWidget {
                   border: OutlineInputBorder(),
                   hintText: 'Nombre...',
                   labelText: 'Croissants simples'),
+              keyboardType: TextInputType.number,
             ),
           ),
           Container(
@@ -73,6 +74,7 @@ class SellPage extends StatelessWidget {
               controller: croiss_res,
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), labelText: 'Restants'),
+              keyboardType: TextInputType.number,
             ),
           ),
           Container(
@@ -84,6 +86,7 @@ class SellPage extends StatelessWidget {
                   hintText: 'Nombre...',
                   labelText: 'Croissants au chocolat',
                 ),
+                keyboardType: TextInputType.number,
               )),
           Container(
             padding: const EdgeInsets.fromLTRB(200, 3, 16, 16),
@@ -92,6 +95,7 @@ class SellPage extends StatelessWidget {
               controller: croiss_choc_res,
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), labelText: 'Restants'),
+              keyboardType: TextInputType.number,
             ),
           ),
           Container(
@@ -102,6 +106,7 @@ class SellPage extends StatelessWidget {
                     border: OutlineInputBorder(),
                     hintText: 'Nombre...',
                     labelText: 'Pains au chocolat'),
+                keyboardType: TextInputType.number,
               )),
           Container(
             padding: const EdgeInsets.fromLTRB(200, 3, 16, 16),
@@ -110,6 +115,7 @@ class SellPage extends StatelessWidget {
               controller: pain_choc_res,
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), labelText: 'Restants'),
+              keyboardType: TextInputType.number,
             ),
           ),
           Container(
@@ -120,6 +126,7 @@ class SellPage extends StatelessWidget {
                     border: OutlineInputBorder(),
                     hintText: 'Nombre...',
                     labelText: 'Pains au raisin'),
+                keyboardType: TextInputType.number,
               )),
           Container(
             padding: const EdgeInsets.fromLTRB(200, 3, 16, 16),
@@ -128,6 +135,7 @@ class SellPage extends StatelessWidget {
               controller: pain_rais_res,
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), labelText: 'Restants'),
+              keyboardType: TextInputType.number,
             ),
           ),
           Container(
@@ -138,6 +146,7 @@ class SellPage extends StatelessWidget {
                     border: OutlineInputBorder(),
                     hintText: 'Nombre...',
                     labelText: 'Feuilletés simples'),
+                keyboardType: TextInputType.number,
               )),
           Container(
             padding: const EdgeInsets.fromLTRB(200, 3, 16, 16),
@@ -146,6 +155,7 @@ class SellPage extends StatelessWidget {
               controller: feuill_res,
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), labelText: 'Restants'),
+              keyboardType: TextInputType.number,
             ),
           ),
           Container(
@@ -156,6 +166,7 @@ class SellPage extends StatelessWidget {
                     border: OutlineInputBorder(),
                     hintText: 'Nombre...',
                     labelText: 'Grands feuilletés'),
+                keyboardType: TextInputType.number,
               )),
           Container(
             padding: const EdgeInsets.fromLTRB(200, 3, 16, 16),
@@ -164,6 +175,7 @@ class SellPage extends StatelessWidget {
               controller: feuill_g_res,
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), labelText: 'Restants'),
+              keyboardType: TextInputType.number,
             ),
           ),
           Container(
@@ -174,6 +186,7 @@ class SellPage extends StatelessWidget {
                     border: OutlineInputBorder(),
                     hintText: 'Nombre...',
                     labelText: 'Cakes'),
+                keyboardType: TextInputType.number,
               )),
           Container(
             padding: const EdgeInsets.fromLTRB(200, 3, 16, 16),
@@ -182,6 +195,7 @@ class SellPage extends StatelessWidget {
               controller: cakes_res,
               decoration: const InputDecoration(
                   border: OutlineInputBorder(), labelText: 'Restants'),
+              keyboardType: TextInputType.number,
             ),
           ),
           Container(

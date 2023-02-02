@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'LostConnectionPage.dart';
 import 'RecetteProvider.dart';
 import 'package:odysscompta/Sheets_Manip.dart';
 import 'package:confirm_dialog/confirm_dialog.dart';
@@ -98,29 +101,38 @@ class ResultPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     )),
                 onPressed: () async {
-                  if (await confirm(context,
-                      title: const Text('Confirmation'),
-                      content:
-                          const Text('Voulez-vous enregistré cette vente ?'),
-                      textOK: const Text('Oui'),
-                      textCancel: const Text('Non'))) {
-                    dailyRegistration(dico);
-                    Fluttertoast.showToast(
-                        msg: "Enregistrement effectué avec succès !",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.grey,
-                        textColor: Colors.white,
-                        fontSize: 16.0);
+                  try {
+                    await InternetAddress.lookup('www.google.com');
+                    if (await confirm(context,
+                        title: const Text('Confirmation'),
+                        content:
+                            const Text('Voulez-vous enregistré cette vente ?'),
+                        textOK: const Text('Oui'),
+                        textCancel: const Text('Non'))) {
+                      dailyRegistration(dico);
+                      Fluttertoast.showToast(
+                          msg: "Enregistrement effectué avec succès !",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.grey,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const MyHomePage(title: "Odyssée des Saveurs")),
+                      );
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  } on SocketException {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              const MyHomePage(title: "Odyssée des Saveurs")),
+                          builder: (context) => LostConnectionPage()),
                     );
-                  } else {
-                    Navigator.pop(context);
                   }
                 },
                 child: const Text(style: TextStyle(fontSize: 30), 'Terminer'),

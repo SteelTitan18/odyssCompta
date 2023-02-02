@@ -62,6 +62,7 @@ class _BuyPageState extends State<BuyPage> {
                   controller: priceController,
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(), hintText: "Prix"),
+                  keyboardType: TextInputType.number,
                 )),
             Expanded(
               child: ListView.builder(

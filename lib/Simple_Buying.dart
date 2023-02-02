@@ -73,6 +73,7 @@ class _Simple_BuyPageState extends State<Simple_BuyPage> {
                   controller: priceController,
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(), hintText: "Prix"),
+                  keyboardType: TextInputType.number,
                 )),
             Container(
               width: 200,
