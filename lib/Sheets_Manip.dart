@@ -65,6 +65,43 @@ Future<void> buyingRegistration(Map<String, dynamic> dico) async {
   }
 }
 
+Future<void> test() async {
+  var date = DateTime(2023, 1, 1);
+
+// ...
+
+// Initialisez une instance de GSheets
+  final gsheets = GSheets(_credentials);
+
+  final ss = await gsheets.spreadsheet(_spreadsheetId);
+
+  // get worksheet by its title
+  var sheet = ss.worksheetByTitle('Dépenses');
+  // create worksheet if it does not exist yet
+  sheet ??= await ss.addWorksheet('Dépenses');
+
+// Obtenez une colonne en spécifiant son numéro de colonne
+  final column = await sheet.values.column(1);
+
+// Obtenez les valeurs de la colonne
+  //final values = await column.;
+
+// Utilisez les valeurs
+  for (var value in column) {
+    try {
+      var _date = DateTime.parse(value);
+      if (_date.isAfter(date)) {
+        print(_date);
+      }
+    }
+    catch (e) {
+      print('erreur');
+    }
+    continue;
+  }
+
+}
+
 void ShowToast(){
   Fluttertoast.showToast(
       msg: "Enregistrement effectué avec succès !",

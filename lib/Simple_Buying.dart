@@ -16,6 +16,7 @@ class _Simple_BuyPageState extends State<Simple_BuyPage> {
   final achats = <Text>[];
   var achatslabel = '';
   var total = 0;
+  final date = TextEditingController(text: DateTime.now().toString());
   final labelController = TextEditingController();
   final priceController = TextEditingController();
   final accountController = TextEditingController();
@@ -58,6 +59,16 @@ class _Simple_BuyPageState extends State<Simple_BuyPage> {
         ),
         body: Column(
           children: [
+            Container(
+              padding: const EdgeInsets.fromLTRB(16, 100, 16, 16),
+              child: TextField(
+                controller: date,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Ne pas remplir si c\'est le compte du jour',
+                    labelText: 'DATE DE L\' ACHAT'),
+              ),
+            ),
             Container(
                 width: 200,
                 padding: const EdgeInsets.fromLTRB(0, 16, 0, 3),
@@ -163,6 +174,11 @@ class _Simple_BuyPageState extends State<Simple_BuyPage> {
                     backgroundColor: Colors.blueGrey),
                 "${labelController.text}\t\t\t\t\t\t${priceController.text}",
               );
+              if (date.text.toString() != '') {
+                dico['DATE'] = date.text.toString();
+              } else {
+                dico['DATE'] = DateTime.now().toString();
+              }
               achats.add(article);
               total = total + int.parse(priceController.text);
               achatslabel =

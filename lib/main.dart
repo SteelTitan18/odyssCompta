@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:odysscompta/Coffer.dart';
 import 'package:odysscompta/LostConnectionPage.dart';
 import 'package:odysscompta/Selling.dart';
 import 'package:odysscompta/Simple_Buying.dart';
@@ -82,7 +83,8 @@ class MyHomePage extends StatelessWidget {
                       } on SocketException {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => LostConnectionPage()),
+                          MaterialPageRoute(
+                              builder: (context) => LostConnectionPage()),
                         );
                       }
                     },
@@ -145,7 +147,13 @@ class MyHomePage extends StatelessWidget {
                       ),
                       minimumSize: const Size(100, 0),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CofferPage()),
+                      );
+                    },
                     child: const Text(
                       "Caisse",
                       style: TextStyle(
