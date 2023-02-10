@@ -155,7 +155,7 @@ class _Simple_BuyPageState extends State<Simple_BuyPage> {
                               const MyHomePage(title: "Odyssée des Saveurs")),
                     );
                   } else {
-                    Navigator.pop(context);
+                    //Navigator.pop(context);
                   }
                 },
                 child: const Text('Enregistrer'),

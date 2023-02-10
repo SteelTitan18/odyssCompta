@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gsheets/gsheets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Your google auth credentials
 ///
@@ -65,9 +65,71 @@ Future<void> buyingRegistration(Map<String, dynamic> dico) async {
   }
 }
 
-Future<void> test() async {
-  var date = DateTime(2023, 1, 1);
+Future<void> refresh() async {
+  final prefs = await SharedPreferences.getInstance();
+  var date = prefs.getString("date");
+  var _dateI = DateTime.parse(date!);
+  //print(_dateI);
+  double? amount = prefs.getDouble('amount');
 
+  final gsheets = GSheets(_credentials);
+  final ss = await gsheets.spreadsheet(_spreadsheetId);
+  // get worksheet by its title
+  var sheet1 = ss.worksheetByTitle('Dépenses');
+  // create worksheet if it does not exist yet
+  sheet1 ??= await ss.addWorksheet('Dépenses');
+  // get worksheet by its title
+  var sheet2 = ss.worksheetByTitle('Ventes_Quotidiennes');
+  // create worksheet if it does not exist yet
+  sheet2 ??= await ss.addWorksheet('Ventes_Quotidiennes');
+
+  final dateColumn1 = await sheet2.values.column(1);
+  final priceColumn1 = await sheet2.values.column(8);
+
+
+  int cpt1;
+  for (cpt1 = 0; cpt1 < dateColumn1.length; cpt1++) {
+    //print(dateColumn1[cpt1]);
+    try {
+      var _date = DateTime.parse(dateColumn1[cpt1]);
+      if (_date.isAfter(_dateI)) {
+        //print(_date);
+        amount = (amount! + double.parse(priceColumn1[cpt1]));
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("erreur");
+      }
+      continue;
+    }
+  }
+
+  final dateColumn2 = await sheet1.values.column(1);
+  final priceColumn2 = await sheet1.values.column(2);
+
+  int cpt2;
+  for (cpt2 = 0; cpt2 < dateColumn2.length; cpt2++) {
+    try {
+      var _date = DateTime.parse(dateColumn2[cpt2]);
+      if (_date.isAfter(_dateI)) {
+        //print(_date);
+        amount = (amount! - double.parse(priceColumn2[cpt2]));
+      }
+    } catch (e) {
+      //print("erreur");
+    }
+  }
+
+  await prefs.setDouble("amount1", amount!);
+  print(amount);
+  //return amount;
+}
+
+Future<void> test() async {
+  final prefs = await SharedPreferences.getInstance();
+  var date = DateTime(2023, 1, 1);
+  final double? amount = prefs.getDouble('amount');
+  print(amount);
 // ...
 
 // Initialisez une instance de GSheets
@@ -93,16 +155,14 @@ Future<void> test() async {
       if (_date.isAfter(date)) {
         print(_date);
       }
-    }
-    catch (e) {
+    } catch (e) {
       print('erreur');
     }
     continue;
   }
-
 }
 
-void ShowToast(){
+void ShowToast() {
   Fluttertoast.showToast(
       msg: "Enregistrement effectué avec succès !",
       toastLength: Toast.LENGTH_SHORT,
@@ -110,6 +170,5 @@ void ShowToast(){
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.grey,
       textColor: Colors.white,
-      fontSize: 16.0
-  );
+      fontSize: 16.0);
 }

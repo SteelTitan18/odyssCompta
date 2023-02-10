@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:odysscompta/main.dart';
 import 'package:odysscompta/Sheets_Manip.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CofferPage extends StatefulWidget {
   const CofferPage({super.key});
@@ -10,6 +11,7 @@ class CofferPage extends StatefulWidget {
 }
 
 class _CofferPageState extends State<CofferPage> {
+
   static const _appTitle = 'Caisse';
   final amountController = TextEditingController();
 
@@ -55,17 +57,37 @@ class _CofferPageState extends State<CofferPage> {
                     width: 200,
                     margin: const EdgeInsets.fromLTRB(0, 200, 0, 3),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        //Future<double?> amount = refresh();
+                        refresh();
+                        final prefs = await SharedPreferences.getInstance();
+                        await Future.delayed(const Duration(seconds: 5));
+                        double? amount = prefs.getDouble('amount1');
+                        //print(amount);
+                        amountController.text = amount.toString();
+                        /*print(amount);
+                        print(amount);*/
+                      },
                       child: Text("Actualiser"),
                     )),
                 Container(
                     width: 200,
                     margin: const EdgeInsets.fromLTRB(0, 16, 0, 3),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        amountUpdate(double.parse(amountController.text));
+                      },
                       child: Text("Mettre à jour"),
                     )),
               ],
             ))));
   }
+}
+
+Future<void> amountUpdate (double amount) async {
+  //SharedPreferences.setMockInitialValues({});
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString("date", DateTime.now().toString());
+  await prefs.setDouble("amount", amount);
+  print("ok");
 }
