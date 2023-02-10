@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:odysscompta/main.dart';
 import 'package:odysscompta/Sheets_Manip.dart';
@@ -58,17 +59,13 @@ class _CofferPageState extends State<CofferPage> {
                     margin: const EdgeInsets.fromLTRB(0, 200, 0, 3),
                     child: ElevatedButton(
                       onPressed: () async {
-                        //Future<double?> amount = refresh();
                         refresh();
                         final prefs = await SharedPreferences.getInstance();
                         await Future.delayed(const Duration(seconds: 5));
-                        double? amount = prefs.getDouble('amount1');
-                        //print(amount);
+                        int? amount = prefs.getDouble('amount1')?.toInt();
                         amountController.text = amount.toString();
-                        /*print(amount);
-                        print(amount);*/
                       },
-                      child: Text("Actualiser"),
+                      child: const Text("Actualiser"),
                     )),
                 Container(
                     width: 200,
@@ -77,7 +74,7 @@ class _CofferPageState extends State<CofferPage> {
                       onPressed: () {
                         amountUpdate(double.parse(amountController.text));
                       },
-                      child: Text("Mettre à jour"),
+                      child: const Text("Mettre à jour"),
                     )),
               ],
             ))));
@@ -85,9 +82,10 @@ class _CofferPageState extends State<CofferPage> {
 }
 
 Future<void> amountUpdate (double amount) async {
-  //SharedPreferences.setMockInitialValues({});
   final prefs = await SharedPreferences.getInstance();
   await prefs.setString("date", DateTime.now().toString());
   await prefs.setDouble("amount", amount);
-  print("ok");
+  if (kDebugMode) {
+    print("ok");
+  }
 }

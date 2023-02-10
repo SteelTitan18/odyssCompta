@@ -69,7 +69,6 @@ Future<void> refresh() async {
   final prefs = await SharedPreferences.getInstance();
   var date = prefs.getString("date");
   var _dateI = DateTime.parse(date!);
-  //print(_dateI);
   double? amount = prefs.getDouble('amount');
 
   final gsheets = GSheets(_credentials);
@@ -89,16 +88,14 @@ Future<void> refresh() async {
 
   int cpt1;
   for (cpt1 = 0; cpt1 < dateColumn1.length; cpt1++) {
-    //print(dateColumn1[cpt1]);
     try {
       var _date = DateTime.parse(dateColumn1[cpt1]);
       if (_date.isAfter(_dateI)) {
-        //print(_date);
         amount = (amount! + double.parse(priceColumn1[cpt1]));
       }
     } catch (e) {
       if (kDebugMode) {
-        print("erreur");
+        //print("erreur");
       }
       continue;
     }
@@ -112,7 +109,6 @@ Future<void> refresh() async {
     try {
       var _date = DateTime.parse(dateColumn2[cpt2]);
       if (_date.isAfter(_dateI)) {
-        //print(_date);
         amount = (amount! - double.parse(priceColumn2[cpt2]));
       }
     } catch (e) {
@@ -121,11 +117,9 @@ Future<void> refresh() async {
   }
 
   await prefs.setDouble("amount1", amount!);
-  print(amount);
-  //return amount;
 }
 
-Future<void> test() async {
+/*Future<void> test() async {
   final prefs = await SharedPreferences.getInstance();
   var date = DateTime(2023, 1, 1);
   final double? amount = prefs.getDouble('amount');
@@ -160,7 +154,7 @@ Future<void> test() async {
     }
     continue;
   }
-}
+}*/
 
 void ShowToast() {
   Fluttertoast.showToast(
