@@ -14,7 +14,7 @@ class BuyPage extends StatefulWidget {
 class _BuyPageState extends State<BuyPage> {
   static const _appTitle = 'Achats';
   final achats = <Text>[];
-  var achatslabel = '';
+  var achatslabel = <String>[];
   var total = 0;
   final labelController = TextEditingController();
   final priceController = TextEditingController();
@@ -72,7 +72,7 @@ class _BuyPageState extends State<BuyPage> {
 
                   return Dismissible(
                     key: Key('$achat$index'),
-                    onDismissed: (direction) => achats.removeAt(index),
+                    onDismissed: (direction) => articleDismiss(index, providerRecette),
                     background: Container(color: Colors.red),
                     child: ListTile(title: achat),
                   );
@@ -99,7 +99,7 @@ class _BuyPageState extends State<BuyPage> {
                     context,
                     MaterialPageRoute(builder: (context) => const ResultPage()),
                   );
-                  providerRecette.achats_label = achatslabel;
+                  providerRecette.achats_label = achatslabel.join("\n");
                 },
                 child: const Text('Suivant'),
               ),
@@ -122,7 +122,8 @@ class _BuyPageState extends State<BuyPage> {
               total = total + int.parse(priceController.text);
               providerRecette.total =
                   providerRecette.total - int.parse(priceController.text);
-              achatslabel = "$achatslabel${labelController.text}\t\t\t${priceController.text}\n";
+              achatslabel.add(
+                  "${labelController.text}\t\t\t${priceController.text}");
               labelController.clear();
               priceController.clear();
             });
@@ -131,5 +132,18 @@ class _BuyPageState extends State<BuyPage> {
         ),
       ),
     );
+  }
+
+  void articleDismiss(int index, RecetteProvider providerRecette) {
+    achats.removeAt(index);
+    int prix =
+    int.parse(achatslabel.elementAt(index).toString().split("\t\t\t")[1]);
+    achatslabel.removeAt(index);
+    setState(() {
+      total -= prix;
+      providerRecette.total = total;
+      providerRecette.achats['Articles']?.removeAt(index);
+      providerRecette.achats['Prix']?.removeAt(index);
+    });
   }
 }

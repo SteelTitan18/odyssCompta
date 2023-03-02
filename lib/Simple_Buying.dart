@@ -1,4 +1,5 @@
 import 'package:confirm_dialog/confirm_dialog.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:odysscompta/Sheets_Manip.dart';
@@ -14,7 +15,7 @@ class Simple_BuyPage extends StatefulWidget {
 class _Simple_BuyPageState extends State<Simple_BuyPage> {
   static const _appTitle = 'Achats';
   final achats = <Text>[];
-  var achatslabel = '';
+  var achatslabel = <String>[];
   var total = 0;
   final date = TextEditingController(text: DateTime.now().toString());
   final labelController = TextEditingController();
@@ -110,7 +111,7 @@ class _Simple_BuyPageState extends State<Simple_BuyPage> {
 
                   return Dismissible(
                     key: Key('$achat$index'),
-                    onDismissed: (direction) => achats.removeAt(index),
+                    onDismissed: (direction) => articleDismiss(index),
                     background: Container(color: Colors.red),
                     child: ListTile(title: achat),
                   );
@@ -135,8 +136,7 @@ class _Simple_BuyPageState extends State<Simple_BuyPage> {
                 onPressed: () async {
                   if (await confirm(context,
                       title: const Text('Confirmation'),
-                      content:
-                          const Text('Voulez-vous enregistré cet achat ?'),
+                      content: const Text('Voulez-vous enregistré cet achat ?'),
                       textOK: const Text('Oui'),
                       textCancel: const Text('Non'))) {
                     buyingRegistration(dico);
@@ -181,10 +181,10 @@ class _Simple_BuyPageState extends State<Simple_BuyPage> {
               }
               achats.add(article);
               total = total + int.parse(priceController.text);
-              achatslabel =
-                  "$achatslabel${labelController.text}\t\t\t${priceController.text}\n";
+              achatslabel.add(
+                  "${labelController.text}\t\t\t${priceController.text}");
               dico['MONTANT'] = total;
-              dico['MOTIF'] = achatslabel;
+              dico['MOTIF'] = achatslabel.join("\n");
               dico['COMPTE'] = accountValue;
               labelController.clear();
               priceController.clear();
@@ -194,5 +194,17 @@ class _Simple_BuyPageState extends State<Simple_BuyPage> {
         ),
       ),
     );
+  }
+
+  void articleDismiss(int index) {
+    achats.removeAt(index);
+    int prix =
+        int.parse(achatslabel.elementAt(index).toString().split("\t\t\t")[1]);
+    achatslabel.removeAt(index);
+    setState(() {
+      total -= prix;
+    });
+    dico['MONTANT'] = total;
+    dico['MOTIF'] = achatslabel.join("\n");
   }
 }
