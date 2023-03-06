@@ -141,7 +141,7 @@ class _BuyPageState extends State<BuyPage> {
     achatslabel.removeAt(index);
     setState(() {
       total -= prix;
-      providerRecette.total = total;
+      providerRecette.total += prix;
       providerRecette.achats['Articles']?.removeAt(index);
       providerRecette.achats['Prix']?.removeAt(index);
     });
