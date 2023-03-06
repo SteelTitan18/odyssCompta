@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:odysscompta/main.dart';
 import 'package:odysscompta/Sheets_Manip.dart';
@@ -85,7 +84,4 @@ Future<void> amountUpdate (double amount) async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.setString("date", DateTime.now().toString());
   await prefs.setDouble("amount", amount);
-  if (kDebugMode) {
-    print("ok");
-  }
 }

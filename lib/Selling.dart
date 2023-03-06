@@ -253,7 +253,6 @@ class SellPage extends StatelessWidget {
                 providerRecette.ventes['cakes'] =
                     (((cakes.text != "") ? int.parse(cakes.text) : 0) - ((cakes_res.text != "") ? int.parse(cakes_res.text) : 0)) * 150;
                 providerRecette.total += providerRecette.ventes['cakes']!;
-                print(providerRecette.total);
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const BuyPage()),
