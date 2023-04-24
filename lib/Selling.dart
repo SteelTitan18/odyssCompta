@@ -21,6 +21,10 @@ class SellPage extends StatelessWidget {
   final pain_rais_res = TextEditingController();
   final cakes = TextEditingController();
   final cakes_res = TextEditingController();
+  final quiches = TextEditingController();
+  final quiches_res = TextEditingController();
+  final m_quiches = TextEditingController();
+  final m_quiches_res = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -199,6 +203,46 @@ class SellPage extends StatelessWidget {
             ),
           ),
           Container(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                controller: quiches,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Nombre...',
+                    labelText: 'Petites quiches'),
+                keyboardType: TextInputType.number,
+              )),
+          Container(
+            padding: const EdgeInsets.fromLTRB(200, 3, 16, 16),
+            height: 60,
+            child: TextField(
+              controller: quiches_res,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Restants'),
+              keyboardType: TextInputType.number,
+            ),
+          ),
+          Container(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                controller: m_quiches,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Nombre...',
+                    labelText: 'Grandes quiches'),
+                keyboardType: TextInputType.number,
+              )),
+          Container(
+            padding: const EdgeInsets.fromLTRB(200, 3, 16, 16),
+            height: 60,
+            child: TextField(
+              controller: m_quiches_res,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Restants'),
+              keyboardType: TextInputType.number,
+            ),
+          ),
+          Container(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               style: null,
@@ -216,6 +260,8 @@ class SellPage extends StatelessWidget {
                 providerRecette.ventes['pain_choc'] = 0;
                 providerRecette.ventes['pain_rais'] = 0;
                 providerRecette.ventes['cakes'] = 0;
+                providerRecette.ventes['quiches'] = 0;
+                providerRecette.ventes['m_quiches'] = 0;
 
                 providerRecette.achats['Articles'] = [];
                 providerRecette.achats['Prix'] = [];
@@ -253,6 +299,12 @@ class SellPage extends StatelessWidget {
                 providerRecette.ventes['cakes'] =
                     (((cakes.text != "") ? int.parse(cakes.text) : 0) - ((cakes_res.text != "") ? int.parse(cakes_res.text) : 0)) * 150;
                 providerRecette.total += providerRecette.ventes['cakes']!;
+                providerRecette.ventes['quiches'] =
+                    (((quiches.text != "") ? int.parse(quiches.text) : 0) - ((quiches_res.text != "") ? int.parse(quiches_res.text) : 0)) * 400;
+                providerRecette.total += providerRecette.ventes['quiches']!;
+                providerRecette.ventes['m_quiches'] =
+                    (((m_quiches.text != "") ? int.parse(m_quiches.text) : 0) - ((m_quiches_res.text != "") ? int.parse(m_quiches_res.text) : 0)) * 700;
+                providerRecette.total += providerRecette.ventes['m_quiches']!;
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const BuyPage()),

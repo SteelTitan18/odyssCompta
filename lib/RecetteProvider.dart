@@ -12,7 +12,9 @@ class RecetteProvider extends ChangeNotifier {
     'feuill_g': 0,
     'pain_choc': 0,
     'pain_rais': 0,
-    'cakes': 0
+    'cakes': 0,
+    'quiches': 0,
+    'm_quiches': 0,
   };
   Map<String, List> _achats = {'Articles':[], 'Prix': []};
   int _total = 0;
