@@ -1,21 +1,23 @@
 import 'package:confirm_dialog/confirm_dialog.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:odysscompta/Sheets_Manip.dart';
 import 'package:odysscompta/main.dart';
+import 'package:data_table_2/data_table_2.dart';
 
 class Simple_BuyPage extends StatefulWidget {
   const Simple_BuyPage({super.key});
 
   @override
-  State<Simple_BuyPage> createState() => _Simple_BuyPageState();
+  State<Simple_BuyPage> createState() => _Simple_BuyPageState2();
 }
 
-class _Simple_BuyPageState extends State<Simple_BuyPage> {
+class _Simple_BuyPageState2 extends State<Simple_BuyPage> {
   static const _appTitle = 'Achats';
   final achats = <Text>[];
-  var achatslabel = <String>[];
+  final prices = <Text>[];
+  List<String> achatslabel = [];
+  List<String> prixlabel = [];
   var total = 0;
   final date = TextEditingController(text: DateTime.now().toString());
   final labelController = TextEditingController();
@@ -27,9 +29,10 @@ class _Simple_BuyPageState extends State<Simple_BuyPage> {
 
   Map<String, dynamic> dico = {
     'DATE': DateTime.now().toString(),
+    'TOTAL': '',
+    'MOTIF': "",
     'MONTANT': '',
     'COMPTE': '',
-    'MOTIF': "",
   };
 
   @override
@@ -104,18 +107,11 @@ class _Simple_BuyPageState extends State<Simple_BuyPage> {
                   }),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: achats.length,
-                itemBuilder: (context, index) {
-                  final achat = achats[index];
-
-                  return Dismissible(
-                    key: Key('$achat$index'),
-                    onDismissed: (direction) => articleDismiss(index),
-                    background: Container(color: Colors.red),
-                    child: ListTile(title: achat),
-                  );
-                },
+              child: DataTable2(
+                columns: _createColumns(),
+                rows: List<DataRow>.generate(
+                    dico['MOTIF'].length,
+                    (index) => _createRows(index)),
               ),
             ),
             Container(
@@ -139,6 +135,9 @@ class _Simple_BuyPageState extends State<Simple_BuyPage> {
                       content: const Text('Voulez-vous enregistré cet achat ?'),
                       textOK: const Text('Oui'),
                       textCancel: const Text('Non'))) {
+                    dico['MONTANT'] = prixlabel.join("\n");
+                    dico['MOTIF'] = achatslabel.join("\n");
+                    dico['TOTAL'] = total;
                     buyingRegistration(dico);
                     Fluttertoast.showToast(
                         msg: "Achat enregistré avec succès !",
@@ -172,19 +171,24 @@ class _Simple_BuyPageState extends State<Simple_BuyPage> {
                     fontSize: 20,
                     color: Colors.white,
                     backgroundColor: Colors.blueGrey),
-                "${labelController.text}\t\t\t\t\t\t${priceController.text}",
+                labelController.text,
               );
+              Text prix = Text(priceController.text.toString());
               if (date.text.toString() != '') {
                 dico['DATE'] = date.text.toString();
               } else {
                 dico['DATE'] = DateTime.now().toString();
               }
               achats.add(article);
+              prices.add(prix);
               total = total + int.parse(priceController.text);
-              achatslabel.add(
-                  "${labelController.text}\t\t\t${priceController.text}");
-              dico['MONTANT'] = total;
-              dico['MOTIF'] = achatslabel.join("\n");
+              achatslabel.add(labelController.text);
+              prixlabel.add(priceController.text);
+              //dico['MOTIF'] = achatslabel.join("\n");
+              dico['MOTIF'] = achatslabel;
+              //dico['MONTANT'] = prixlabel.join("\n");
+              dico['MONTANT'] = prixlabel;
+              dico['TOTAL'] = total;
               dico['COMPTE'] = accountValue;
               labelController.clear();
               priceController.clear();
@@ -196,7 +200,7 @@ class _Simple_BuyPageState extends State<Simple_BuyPage> {
     );
   }
 
-  void articleDismiss(int index) {
+  /*void articleDismiss(int index) {
     achats.removeAt(index);
     int prix =
         int.parse(achatslabel.elementAt(index).toString().split("\t\t\t")[1]);
@@ -204,7 +208,42 @@ class _Simple_BuyPageState extends State<Simple_BuyPage> {
     setState(() {
       total -= prix;
     });
-    dico['MONTANT'] = total;
+    dico['MONTANT'] = prixlabel.join("\n");
     dico['MOTIF'] = achatslabel.join("\n");
+  }*/
+
+  List<DataColumn> _createColumns() {
+    return [
+      const DataColumn(label: Text('LIBELLÉ')),
+      const DataColumn(label: Text('MONTANT')),
+      //const DataColumn(label: Text('ACTIONS')),
+      const DataColumn(label: Text('ACTIONS')),
+    ];
+  }
+
+  DataRow _createRows(index) {
+    return DataRow(
+        cells: [
+          DataCell(Text(dico['MOTIF'][index])),
+          DataCell(Text(dico['MONTANT'][index].toString())),
+          DataCell(IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () {
+              //print(achatslabel.elementAt(index));
+              achats.removeAt(index);
+              int prix =
+              int.parse(prixlabel.elementAt(index));
+              print(prix);
+              achatslabel.removeAt(index);
+              prixlabel.removeAt(index);
+              setState(() {
+                total -= prix;
+              });
+              dico['MONTANT'] = prixlabel;
+              dico['MOTIF'] = achatslabel;
+            },
+          )),
+        ],
+      );
   }
 }

@@ -24,10 +24,13 @@ Future<void> dailyRegistration(Map<String, dynamic> dico) async {
 
   // get worksheet by its title
   var sheet = ss.worksheetByTitle('Ventes_Quotidiennes');
+  var debt_sheet = ss.worksheetByTitle('Dettes');
   // create worksheet if it does not exist yet
   sheet ??= await ss.addWorksheet('Ventes_Quotidiennes');
+  debt_sheet ??= await ss.addWorksheet('Dettes');
 
   await sheet.values.map.appendRow(dico);
+  // await debt_sheet.values.map.appendRow(debtDico);
 }
 
 Future<void> buyingRegistration(Map<String, dynamic> dico) async {
@@ -38,10 +41,14 @@ Future<void> buyingRegistration(Map<String, dynamic> dico) async {
 
   // get worksheet by its title
   var sheet = ss.worksheetByTitle('Dépenses');
+  var debt_sheet = ss.worksheetByTitle('Dettes');
   // create worksheet if it does not exist yet
   sheet ??= await ss.addWorksheet('Dépenses');
+  debt_sheet ??= await ss.addWorksheet('Dettes');
 
+  print(dico);
   await sheet.values.map.appendRow(dico);
+  // await debt_sheet.values.map.appendRow(debtDico);
 }
 
 Future<void> refresh() async {
