@@ -16,25 +16,23 @@ class RecetteProvider extends ChangeNotifier {
     'quiches': 0,
     'm_quiches': 0,
   };
-  Map<String, List> _achats = {'Articles':[], 'Prix': []};
+
   int _total = 0;
   String _date = DateTime.now().toString();
-  String _achats_label = '';
+  List<String> _achats_label = [];
+  List<String> _prix_label = [];
 
   Map<String, int> get ventes => _ventes;
-  Map<String, List> get achats => _achats;
   int get total => _total;
   String get date => _date;
-  String get achats_label => _achats_label;
+  List<String> get achats_label => _achats_label;
+  List<String> get prix_label => _prix_label;
 
   set ventes (Map<String, int> newVentes) {
     _ventes = newVentes;
     notifyListeners();
   }
-  set achats(Map<String, List> value) {
-    _achats = value;
-    notifyListeners();
-  }
+
   set total(int value) {
     _total = value;
     notifyListeners();
@@ -45,8 +43,13 @@ class RecetteProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  set achats_label(String achats_label) {
+  set achats_label(List<String> achats_label) {
     _achats_label = achats_label;
+    notifyListeners();
+  }
+
+  set prix_label(List<String> prix_label) {
+    _prix_label = prix_label;
     notifyListeners();
   }
 }

@@ -23,22 +23,63 @@ class ResultPage extends StatelessWidget {
       total_Sell = total_Sell + value;
     }
     num total_Buy = 0;
-    var liste = providerRecette.achats['Prix']?.toList();
-    for (var value in liste!) {
-      value = int.parse(value);
-      total_Buy = total_Buy + value;
+    int recipe = 0;
+    int price = 0;
+    var selling_details = '';
+    var article = '';
+    var liste = providerRecette.prix_label.toList();
+    for (var value in liste) {
+      price = int.parse(value);
+      total_Buy = total_Buy + price;
     }
+
+    recipe = providerRecette.total;
     final totalSell = TextEditingController(text: total_Sell.toString());
     final totalBuy = TextEditingController(text: total_Buy.toString());
-    final recette =
-        TextEditingController(text: providerRecette.total.toString());
+    final recette = TextEditingController(text: recipe.toString());
+
+    for (article in providerRecette.ventes.keys) {
+      var article_i = article;
+      switch (article) {
+        case 'croiss':
+          article = 'Croissant simple';
+          break;
+        case 'croiss_choc':
+          article = 'Croissant chocolat';
+          break;
+        case 'feuill':
+          article = 'Petit Feuilletté';
+          break;
+        case 'feuill_g':
+          article = 'Grand Feuilletté';
+          break;
+        case 'pain_choc':
+          article = 'Pain au Chocolat';
+          break;
+        case 'pain_rais':
+          article = 'Pain au Raisin';
+          break;
+        case 'cakes':
+          article = 'Cakes';
+          break;
+        case 'quiches':
+          article = 'Petite Quiche';
+          break;
+        case 'm_quiches':
+          article = 'Petite Quiche';
+          break;
+        default:
+          break;
+      }
+      selling_details = '$selling_details$article(${providerRecette.ventes[article_i]})\n';
+    }
 
     dico = {
       'DATE': providerRecette.date.toString(),
-      'VENTE': total_Sell.toString(),
+      'VENTE': '$selling_details\nTotal = $total_Sell',
       'MONNAIE': '8000',
-      'DEPENSES':
-          "${providerRecette.achats_label.toString()}\nTotal = $total_Buy",
+      'DEPENSES': "${providerRecette.achats_label.join("\n")}\n\nTotal",
+      'MONTANTS': "${providerRecette.prix_label.join("\n")}\n\n$total_Buy",
       'A RENDRE': providerRecette.total,
       'PART BENE': '500',
       'RECETTE': providerRecette.total - 500

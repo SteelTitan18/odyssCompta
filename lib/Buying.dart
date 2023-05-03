@@ -1,3 +1,4 @@
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:odysscompta/Result.dart';
 import 'package:odysscompta/main.dart';
@@ -14,7 +15,9 @@ class BuyPage extends StatefulWidget {
 class _BuyPageState extends State<BuyPage> {
   static const _appTitle = 'Achats';
   final achats = <Text>[];
-  var achatslabel = <String>[];
+  final prices = <Text>[];
+  List<String> achatslabel = [];
+  List<String> prixlabel = [];
   var total = 0;
   final labelController = TextEditingController();
   final priceController = TextEditingController();
@@ -65,18 +68,11 @@ class _BuyPageState extends State<BuyPage> {
                   keyboardType: TextInputType.number,
                 )),
             Expanded(
-              child: ListView.builder(
-                itemCount: achats.length,
-                itemBuilder: (context, index) {
-                  final achat = achats[index];
-
-                  return Dismissible(
-                    key: Key('$achat$index'),
-                    onDismissed: (direction) => articleDismiss(index, providerRecette),
-                    background: Container(color: Colors.red),
-                    child: ListTile(title: achat),
-                  );
-                },
+              child: DataTable2(
+                columns: _createColumns(),
+                rows: List<DataRow>.generate(
+                    achatslabel.length,
+                        (index) => _createRows(index, providerRecette)),
               ),
             ),
             Container(
@@ -99,7 +95,10 @@ class _BuyPageState extends State<BuyPage> {
                     context,
                     MaterialPageRoute(builder: (context) => const ResultPage()),
                   );
-                  providerRecette.achats_label = achatslabel.join("\n");
+                  //providerRecette.achats_label = achatslabel;
+                  //providerRecette.prix_label = prixlabel;
+                  //providerRecette.total = total;
+                  //providerRecette.total -= total;
                 },
                 child: const Text('Suivant'),
               ),
@@ -108,22 +107,23 @@ class _BuyPageState extends State<BuyPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            if (!(providerRecette.achats['Articles']!.contains(labelController.text))) {
-              providerRecette.achats['Articles']?.add(labelController.text);
-              providerRecette.achats['Prix']?.add(priceController.text);
+            if (!(providerRecette.achats_label.contains(labelController.text))) {
+              providerRecette.achats_label.add(labelController.text);
+              providerRecette.prix_label.add(priceController.text);
             }
             setState(() {
               Text article = Text(
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 20, color: Colors.white, backgroundColor: Colors.blueGrey),
-                "${labelController.text}\t\t\t\t\t\t${priceController.text}",
+                labelController.text,
               );
+              Text prix = Text(priceController.text.toString());
               achats.add(article);
+              prices.add(prix);
               total = total + int.parse(priceController.text);
-              providerRecette.total =
-                  providerRecette.total - int.parse(priceController.text);
-              achatslabel.add(
-                  "${labelController.text}\t\t\t${priceController.text}");
+              providerRecette.total = providerRecette.total - int.parse(priceController.text);
+              achatslabel.add(labelController.text);
+              prixlabel.add(priceController.text);
               labelController.clear();
               priceController.clear();
             });
@@ -134,7 +134,7 @@ class _BuyPageState extends State<BuyPage> {
     );
   }
 
-  void articleDismiss(int index, RecetteProvider providerRecette) {
+  /*void articleDismiss(int index, RecetteProvider providerRecette) {
     achats.removeAt(index);
     int prix =
     int.parse(achatslabel.elementAt(index).toString().split("\t\t\t")[1]);
@@ -145,5 +145,40 @@ class _BuyPageState extends State<BuyPage> {
       providerRecette.achats['Articles']?.removeAt(index);
       providerRecette.achats['Prix']?.removeAt(index);
     });
+  }*/
+
+  List<DataColumn> _createColumns() {
+    return [
+      const DataColumn(label: Text('LIBELLÉ')),
+      const DataColumn(label: Text('MONTANT')),
+      //const DataColumn(label: Text('ACTIONS')),
+      const DataColumn(label: Text('ACTIONS')),
+    ];
+  }
+
+  DataRow _createRows(index, RecetteProvider providerRecette) {
+    return DataRow(
+      cells: [
+        DataCell(Text(achatslabel[index])),
+        DataCell(Text(prixlabel[index].toString())),
+        DataCell(IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: () {
+            //print(achatslabel.elementAt(index));
+            //achats.removeAt(index);
+            int prix =
+            int.parse(prixlabel.elementAt(index));
+            achatslabel.removeAt(index);
+            prixlabel.removeAt(index);
+            setState(() {
+              total -= prix;
+              providerRecette.total += prix;
+              providerRecette.achats_label.removeAt(index);
+              providerRecette.prix_label.removeAt(index);
+            });
+          },
+        )),
+      ],
+    );
   }
 }

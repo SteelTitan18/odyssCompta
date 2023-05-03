@@ -263,8 +263,8 @@ class SellPage extends StatelessWidget {
                 providerRecette.ventes['quiches'] = 0;
                 providerRecette.ventes['m_quiches'] = 0;
 
-                providerRecette.achats['Articles'] = [];
-                providerRecette.achats['Prix'] = [];
+                providerRecette.achats_label = [];
+                providerRecette.prix_label = [];
 
                 providerRecette.ventes['croiss'] =
                     (((croiss.text != "") ? int.parse(croiss.text) : 0) -
