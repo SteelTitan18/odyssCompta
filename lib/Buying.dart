@@ -30,7 +30,7 @@ class _BuyPageState extends State<BuyPage> {
       debugShowCheckedModeBanner: false,
       title: _appTitle,
       theme: ThemeData(
-        primarySwatch: Colors.brown,
+        primarySwatch: Colors.cyan,
       ),
       home: Scaffold(
         appBar: AppBar(
@@ -70,14 +70,14 @@ class _BuyPageState extends State<BuyPage> {
             Expanded(
               child: DataTable2(
                 columns: _createColumns(),
-                rows: List<DataRow>.generate(
-                    achatslabel.length,
-                        (index) => _createRows(index, providerRecette)),
+                rows: List<DataRow>.generate(achatslabel.length,
+                    (index) => _createRows(index, providerRecette)),
               ),
             ),
             Container(
-                color: Colors.brown,
                 padding: const EdgeInsets.fromLTRB(100, 8, 100, 8),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(10), color: const Color(0xffFF7F50)),
                 child: Text(
                   style: const TextStyle(fontSize: 20, color: Colors.white),
                   "Total : $total",
@@ -86,7 +86,7 @@ class _BuyPageState extends State<BuyPage> {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.brown,
+                    backgroundColor: Colors.cyan,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     )),
@@ -95,10 +95,6 @@ class _BuyPageState extends State<BuyPage> {
                     context,
                     MaterialPageRoute(builder: (context) => const ResultPage()),
                   );
-                  //providerRecette.achats_label = achatslabel;
-                  //providerRecette.prix_label = prixlabel;
-                  //providerRecette.total = total;
-                  //providerRecette.total -= total;
                 },
                 child: const Text('Suivant'),
               ),
@@ -107,21 +103,26 @@ class _BuyPageState extends State<BuyPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            if (!(providerRecette.achats_label.contains(labelController.text))) {
+            if (!(providerRecette.achats_label
+                .contains(labelController.text))) {
               providerRecette.achats_label.add(labelController.text);
               providerRecette.prix_label.add(priceController.text);
             }
             setState(() {
               Text article = Text(
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 20, color: Colors.white, backgroundColor: Colors.blueGrey),
+                style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    backgroundColor: Colors.blueGrey),
                 labelController.text,
               );
               Text prix = Text(priceController.text.toString());
               achats.add(article);
               prices.add(prix);
               total = total + int.parse(priceController.text);
-              providerRecette.total = providerRecette.total - int.parse(priceController.text);
+              providerRecette.total =
+                  providerRecette.total - int.parse(priceController.text);
               achatslabel.add(labelController.text);
               prixlabel.add(priceController.text);
               labelController.clear();
@@ -133,19 +134,6 @@ class _BuyPageState extends State<BuyPage> {
       ),
     );
   }
-
-  /*void articleDismiss(int index, RecetteProvider providerRecette) {
-    achats.removeAt(index);
-    int prix =
-    int.parse(achatslabel.elementAt(index).toString().split("\t\t\t")[1]);
-    achatslabel.removeAt(index);
-    setState(() {
-      total -= prix;
-      providerRecette.total += prix;
-      providerRecette.achats['Articles']?.removeAt(index);
-      providerRecette.achats['Prix']?.removeAt(index);
-    });
-  }*/
 
   List<DataColumn> _createColumns() {
     return [
@@ -166,8 +154,7 @@ class _BuyPageState extends State<BuyPage> {
           onPressed: () {
             //print(achatslabel.elementAt(index));
             //achats.removeAt(index);
-            int prix =
-            int.parse(prixlabel.elementAt(index));
+            int prix = int.parse(prixlabel.elementAt(index));
             achatslabel.removeAt(index);
             prixlabel.removeAt(index);
             setState(() {

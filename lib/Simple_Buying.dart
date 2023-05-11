@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:confirm_dialog/confirm_dialog.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:odysscompta/Sheets_Manip.dart';
 import 'package:odysscompta/main.dart';
 import 'package:data_table_2/data_table_2.dart';
+import 'package:provider/provider.dart';
+
+import 'RecetteProvider.dart';
 
 class Simple_BuyPage extends StatefulWidget {
   const Simple_BuyPage({super.key});
@@ -25,7 +30,7 @@ class _Simple_BuyPageState2 extends State<Simple_BuyPage> {
   final accountController = TextEditingController();
 
   String? accountValue = 'Vente';
-  var accounts = ['Vente', 'Personnel'];
+  var account = ['Vente', 'Personnel'];
 
   Map<String, dynamic> dico = {
     'DATE': DateTime.now().toString(),
@@ -37,13 +42,16 @@ class _Simple_BuyPageState2 extends State<Simple_BuyPage> {
 
   @override
   Widget build(BuildContext context) {
-    //final providerRecette = Provider.of<RecetteProvider>(context);
+    Firebase.initializeApp();
+    CollectionReference accounts = FirebaseFirestore.instance.collection('accounts');
+
+    final providerRecette = Provider.of<RecetteProvider>(context);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: _appTitle,
       theme: ThemeData(
-        primarySwatch: Colors.brown,
+        primarySwatch: Colors.cyan,
       ),
       home: Scaffold(
         appBar: AppBar(
@@ -64,7 +72,7 @@ class _Simple_BuyPageState2 extends State<Simple_BuyPage> {
         body: Column(
           children: [
             Container(
-              padding: const EdgeInsets.fromLTRB(16, 100, 16, 16),
+              padding: const EdgeInsets.fromLTRB(16, 50, 16, 16),
               child: TextField(
                 controller: date,
                 decoration: const InputDecoration(
@@ -92,13 +100,13 @@ class _Simple_BuyPageState2 extends State<Simple_BuyPage> {
                 )),
             Container(
               width: 200,
-              padding: const EdgeInsets.fromLTRB(0, 16, 0, 3),
+              padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
               child: DropdownButton(
                   value: accountValue,
                   icon: const Icon(Icons.keyboard_arrow_down),
-                  items: accounts.map((accounts) {
+                  items: account.map((account) {
                     return DropdownMenuItem(
-                        value: accounts, child: Text(accounts));
+                        value: account, child: Text(account));
                   }).toList(),
                   onChanged: (String? newValue) {
                     setState(() {
@@ -115,8 +123,9 @@ class _Simple_BuyPageState2 extends State<Simple_BuyPage> {
               ),
             ),
             Container(
-                color: Colors.brown,
                 padding: const EdgeInsets.fromLTRB(100, 8, 100, 8),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
+                  color: const Color(0xffFF7F50)),
                 child: Text(
                   style: const TextStyle(fontSize: 20, color: Colors.white),
                   "Total : $total",
@@ -125,7 +134,7 @@ class _Simple_BuyPageState2 extends State<Simple_BuyPage> {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.brown,
+                    backgroundColor: Colors.cyan,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     )),
@@ -139,6 +148,7 @@ class _Simple_BuyPageState2 extends State<Simple_BuyPage> {
                     dico['MOTIF'] = achatslabel.join("\n");
                     dico['TOTAL'] = total;
                     buyingRegistration(dico);
+                    accounts.doc('accounts').update({'fund': providerRecette.fund - total});
                     Fluttertoast.showToast(
                         msg: "Achat enregistré avec succès !",
                         toastLength: Toast.LENGTH_SHORT,
@@ -200,18 +210,6 @@ class _Simple_BuyPageState2 extends State<Simple_BuyPage> {
     );
   }
 
-  /*void articleDismiss(int index) {
-    achats.removeAt(index);
-    int prix =
-        int.parse(achatslabel.elementAt(index).toString().split("\t\t\t")[1]);
-    achatslabel.removeAt(index);
-    setState(() {
-      total -= prix;
-    });
-    dico['MONTANT'] = prixlabel.join("\n");
-    dico['MOTIF'] = achatslabel.join("\n");
-  }*/
-
   List<DataColumn> _createColumns() {
     return [
       const DataColumn(label: Text('LIBELLÉ')),
@@ -229,11 +227,9 @@ class _Simple_BuyPageState2 extends State<Simple_BuyPage> {
           DataCell(IconButton(
             icon: const Icon(Icons.delete),
             onPressed: () {
-              //print(achatslabel.elementAt(index));
               achats.removeAt(index);
               int prix =
               int.parse(prixlabel.elementAt(index));
-              print(prix);
               achatslabel.removeAt(index);
               prixlabel.removeAt(index);
               setState(() {

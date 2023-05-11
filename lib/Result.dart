@@ -7,6 +7,8 @@ import 'LostConnectionPage.dart';
 import 'RecetteProvider.dart';
 import 'package:odysscompta/Sheets_Manip.dart';
 import 'package:confirm_dialog/confirm_dialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'main.dart';
 
@@ -17,6 +19,9 @@ class ResultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final providerRecette = Provider.of<RecetteProvider>(context);
+
+    Firebase.initializeApp();
+    CollectionReference accounts = FirebaseFirestore.instance.collection('accounts');
 
     var total_Sell = 0;
     for (var value in providerRecette.ventes.values) {
@@ -71,7 +76,7 @@ class ResultPage extends StatelessWidget {
         default:
           break;
       }
-      selling_details = '$selling_details$article (${providerRecette.ventes[article_i]})\n';
+      selling_details = '\n$selling_details$article : ${providerRecette.ventes[article_i]}';
     }
 
     dico = {
@@ -102,7 +107,7 @@ class ResultPage extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
+        child: Center(child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
@@ -126,7 +131,7 @@ class ResultPage extends StatelessWidget {
             Container(
                 width: 300,
                 //padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                margin: const EdgeInsets.fromLTRB(50, 50, 8, 0),
+                margin: const EdgeInsets.only(top: 50),
                 child: TextField(
                   controller: recette,
                   decoration: const InputDecoration(
@@ -134,10 +139,10 @@ class ResultPage extends StatelessWidget {
                       labelText: 'Recette du jour'),
                 )),
             Container(
-              margin: const EdgeInsets.fromLTRB(50, 200, 0, 0),
+              margin: const EdgeInsets.only(top: 150),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.brown,
+                    backgroundColor: Colors.cyan,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     )),
@@ -151,6 +156,8 @@ class ResultPage extends StatelessWidget {
                         textOK: const Text('Oui'),
                         textCancel: const Text('Non'))) {
                       dailyRegistration(dico);
+                      accounts.doc('accounts').update({'fund': providerRecette.fund + providerRecette.total - 500});
+                      accounts.doc('accounts').update({'bene_or_papa': providerRecette.due + 500});
                       Fluttertoast.showToast(
                           msg: "Enregistrement effectué avec succès !",
                           toastLength: Toast.LENGTH_SHORT,
@@ -176,11 +183,11 @@ class ResultPage extends StatelessWidget {
                     );
                   }
                 },
-                child: const Text(style: TextStyle(fontSize: 30), 'Terminer'),
+                child: const Text(style: TextStyle(fontSize: 25, color: Colors.white), 'Terminer'),
               ),
             )
           ],
-        ),
+        )),
       ),
     );
   }
