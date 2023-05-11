@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1034415433423",
+    "project_id": "comptabiliteods",
+    "storage_bucket": "comptabiliteods.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034415433423:android:3b15d21248767fdf22b9ba",
+        "android_client_info": {
+          "package_name": "com.example.odysscompta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1034415433423-j652kpi4uh74eul00blfnlfbid47th5t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALhvFs_Gda_xu66__W4E6wbDA9B2i1z_Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1034415433423-j652kpi4uh74eul00blfnlfbid47th5t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
