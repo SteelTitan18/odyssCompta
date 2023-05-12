@@ -10,7 +10,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'RecetteProvider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(
     MultiProvider(
         providers: [ChangeNotifierProvider(create: (_) => RecetteProvider())],
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    Firebase.initializeApp();
+    //Firebase.initializeApp();
 
     return MaterialApp(
         debugShowCheckedModeBanner: false,
