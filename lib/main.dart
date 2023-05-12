@@ -27,8 +27,6 @@ void account_doc() async {
   if (!await launchUrl(url)) throw 'Fichier de compte inaccessible';
 }
 
-int _fund = 0;
-int _due = 0;
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -59,7 +57,6 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final providerRecette = Provider.of<RecetteProvider>(context);
     CollectionReference accounts =
         FirebaseFirestore.instance.collection('accounts');
 
@@ -87,8 +84,6 @@ class MyHomePage extends StatelessWidget {
                       if (snapshot.connectionState == ConnectionState.done) {
                         Map<String, dynamic> cash =
                             snapshot.data!.data() as Map<String, dynamic>;
-                        _fund = cash['fund'];
-                        _due = cash['bene_or_papa'];
 
                         return MediaQuery(
                             data: MediaQuery.of(context).copyWith(),
@@ -164,8 +159,6 @@ class MyHomePage extends StatelessWidget {
                           onPressed: () async {
                             try {
                               await InternetAddress.lookup('www.google.com');
-                              providerRecette.fund = _fund;
-                              providerRecette.due = _due;
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -202,8 +195,6 @@ class MyHomePage extends StatelessWidget {
                             minimumSize: const Size(100, 0),
                           ),
                           onPressed: () {
-                            providerRecette.fund = _fund;
-                            providerRecette.due = _due;
                             Navigator.push(
                               context,
                               MaterialPageRoute(

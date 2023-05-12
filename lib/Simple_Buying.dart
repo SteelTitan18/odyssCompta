@@ -6,9 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:odysscompta/Sheets_Manip.dart';
 import 'package:odysscompta/main.dart';
 import 'package:data_table_2/data_table_2.dart';
-import 'package:provider/provider.dart';
 
-import 'RecetteProvider.dart';
 
 class Simple_BuyPage extends StatefulWidget {
   const Simple_BuyPage({super.key});
@@ -45,7 +43,6 @@ class _Simple_BuyPageState2 extends State<Simple_BuyPage> {
     Firebase.initializeApp();
     CollectionReference accounts = FirebaseFirestore.instance.collection('accounts');
 
-    final providerRecette = Provider.of<RecetteProvider>(context);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -148,7 +145,7 @@ class _Simple_BuyPageState2 extends State<Simple_BuyPage> {
                     dico['MOTIF'] = achatslabel.join("\n");
                     dico['TOTAL'] = total;
                     buyingRegistration(dico);
-                    accounts.doc('accounts').update({'fund': providerRecette.fund - total});
+                    accounts.doc('accounts').update({'fund': FieldValue.increment(-total)});
                     Fluttertoast.showToast(
                         msg: "Achat enregistré avec succès !",
                         toastLength: Toast.LENGTH_SHORT,

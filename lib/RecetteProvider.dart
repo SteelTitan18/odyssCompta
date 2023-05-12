@@ -21,16 +21,12 @@ class RecetteProvider extends ChangeNotifier {
   String _date = DateTime.now().toString();
   List<String> _achats_label = [];
   List<String> _prix_label = [];
-  int _fund = 0;
-  int _due = 0;
 
   Map<String, int> get ventes => _ventes;
   int get total => _total;
   String get date => _date;
   List<String> get achats_label => _achats_label;
   List<String> get prix_label => _prix_label;
-  int get fund => _fund;
-  int get due => _due;
 
   set ventes (Map<String, int> newVentes) {
     _ventes = newVentes;
@@ -54,16 +50,6 @@ class RecetteProvider extends ChangeNotifier {
 
   set prix_label(List<String> prix_label) {
     _prix_label = prix_label;
-    notifyListeners();
-  }
-
-  set fund(int fund) {
-    _fund = fund;
-    notifyListeners();
-  }
-
-  set due(int due) {
-    _due = due;
     notifyListeners();
   }
 }

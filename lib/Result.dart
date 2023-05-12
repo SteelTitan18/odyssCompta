@@ -156,8 +156,8 @@ class ResultPage extends StatelessWidget {
                         textOK: const Text('Oui'),
                         textCancel: const Text('Non'))) {
                       dailyRegistration(dico);
-                      accounts.doc('accounts').update({'fund': providerRecette.fund + providerRecette.total - 500});
-                      accounts.doc('accounts').update({'bene_or_papa': providerRecette.due + 500});
+                      accounts.doc('accounts').update({'fund': FieldValue.increment(providerRecette.total - 500)});
+                      accounts.doc('accounts').update({'bene_or_papa': FieldValue.increment(500)});
                       Fluttertoast.showToast(
                           msg: "Enregistrement effectué avec succès !",
                           toastLength: Toast.LENGTH_SHORT,
