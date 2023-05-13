@@ -1,8 +1,8 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:odysscompta/Result.dart';
-import 'package:odysscompta/main.dart';
 import 'package:provider/provider.dart';
+import 'HomePage.dart';
 import 'RecetteProvider.dart';
 
 class BuyPage extends StatefulWidget {
@@ -13,7 +13,7 @@ class BuyPage extends StatefulWidget {
 }
 
 class _BuyPageState extends State<BuyPage> {
-  static const _appTitle = 'Achats';
+  static const title = 'Achats';
   final achats = <Text>[];
   final prices = <Text>[];
   List<String> achatslabel = [];
@@ -26,23 +26,16 @@ class _BuyPageState extends State<BuyPage> {
   Widget build(BuildContext context) {
     final providerRecette = Provider.of<RecetteProvider>(context);
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: _appTitle,
-      theme: ThemeData(
-        primarySwatch: Colors.cyan,
-      ),
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
-          title: const Text(_appTitle),
+          title: const Center(child: Text(title)),
           actions: <Widget>[
             IconButton(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const MyHomePage(
-                            title: "Odyssée des Saveurs : Comptabilité")),
+                        builder: (context) => const MyHomePage()),
                   );
                 },
                 icon: const Icon(Icons.home))
@@ -131,7 +124,6 @@ class _BuyPageState extends State<BuyPage> {
           },
           child: const Icon(Icons.add),
         ),
-      ),
     );
   }
 

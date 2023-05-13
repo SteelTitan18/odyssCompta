@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'HomePage.dart';
 import 'LostConnectionPage.dart';
 import 'RecetteProvider.dart';
 import 'package:odysscompta/Sheets_Manip.dart';
@@ -10,7 +11,6 @@ import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'main.dart';
 
 class ResultPage extends StatelessWidget {
   const ResultPage({super.key});
@@ -99,8 +99,7 @@ class ResultPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const MyHomePage(
-                          title: "Odyssée des Saveurs : Comptabilité")),
+                      builder: (context) => const MyHomePage()),
                 );
               },
               icon: const Icon(Icons.home))
@@ -170,7 +169,7 @@ class ResultPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                const MyHomePage(title: "Odyssée des Saveurs")),
+                                const MyHomePage()),
                       );
                     } else {
                       Navigator.pop(context);

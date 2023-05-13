@@ -4,18 +4,19 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:odysscompta/Sheets_Manip.dart';
-import 'package:odysscompta/main.dart';
 import 'package:data_table_2/data_table_2.dart';
 
+import 'HomePage.dart';
 
-class Simple_BuyPage extends StatefulWidget {
-  const Simple_BuyPage({super.key});
+
+class SimpleBuyPage extends StatefulWidget {
+  const SimpleBuyPage({super.key});
 
   @override
-  State<Simple_BuyPage> createState() => _Simple_BuyPageState2();
+  State<SimpleBuyPage> createState() => _Simple_BuyPageState2();
 }
 
-class _Simple_BuyPageState2 extends State<Simple_BuyPage> {
+class _Simple_BuyPageState2 extends State<SimpleBuyPage> {
   static const _appTitle = 'Achats';
   final achats = <Text>[];
   final prices = <Text>[];
@@ -44,13 +45,7 @@ class _Simple_BuyPageState2 extends State<Simple_BuyPage> {
     CollectionReference accounts = FirebaseFirestore.instance.collection('accounts');
 
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: _appTitle,
-      theme: ThemeData(
-        primarySwatch: Colors.cyan,
-      ),
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: const Text(_appTitle),
           actions: <Widget>[
@@ -59,8 +54,7 @@ class _Simple_BuyPageState2 extends State<Simple_BuyPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const MyHomePage(
-                            title: "Odyssée des Saveurs : Comptabilité")),
+                        builder: (context) => const MyHomePage()),
                   );
                 },
                 icon: const Icon(Icons.home))
@@ -158,7 +152,7 @@ class _Simple_BuyPageState2 extends State<Simple_BuyPage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              const MyHomePage(title: "Odyssée des Saveurs")),
+                              const MyHomePage()),
                     );
                   } else {
                     //Navigator.pop(context);
@@ -203,7 +197,6 @@ class _Simple_BuyPageState2 extends State<Simple_BuyPage> {
           },
           child: const Icon(Icons.add),
         ),
-      ),
     );
   }
 

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:odysscompta/main.dart';
 import 'package:odysscompta/Sheets_Manip.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'HomePage.dart';
 
 class CofferPage extends StatefulWidget {
   const CofferPage({super.key});
@@ -12,28 +13,27 @@ class CofferPage extends StatefulWidget {
 
 class _CofferPageState extends State<CofferPage> {
 
-  static const _appTitle = 'Caisse';
+  static const title = 'Caisse';
   final amountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: _appTitle,
+        title: title,
         theme: ThemeData(
           primarySwatch: Colors.brown,
         ),
         home: Scaffold(
             appBar: AppBar(
-              title: const Text(_appTitle),
+              title: const Center(child: Text(title)),
               actions: <Widget>[
                 IconButton(
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const MyHomePage(
-                                title: "Odyssée des Saveurs : Comptabilité")),
+                            builder: (context) => const MyHomePage()),
                       );
                     },
                     icon: const Icon(Icons.home))

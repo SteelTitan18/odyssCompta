@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:odysscompta/Buying.dart';
 import 'package:odysscompta/RecetteProvider.dart';
 import 'package:provider/provider.dart';
-import 'main.dart';
+import 'HomePage.dart';
 
 class SellPage extends StatelessWidget {
   SellPage({super.key});
@@ -39,8 +39,7 @@ class SellPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const MyHomePage(
-                          title: "Odyssée des Saveurs : Comptabilité")),
+                      builder: (context) => const MyHomePage()),
                 );
               },
               icon: const Icon(Icons.home))
