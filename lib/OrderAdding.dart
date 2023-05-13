@@ -177,7 +177,6 @@ class _OrderAddingState extends State<OrderAdding> {
                                   border: OutlineInputBorder(),
                                   hintText: 'Article',
                                   labelText: 'Article'),
-                              keyboardType: TextInputType.number,
                             )),
                         Container(
                             margin: EdgeInsets.all(
