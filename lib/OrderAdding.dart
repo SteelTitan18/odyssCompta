@@ -112,7 +112,7 @@ class _OrderAddingState extends State<OrderAdding> {
                     margin: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 0.1,
                         right: MediaQuery.of(context).size.width * 0.1,
-                        bottom: MediaQuery.of(context).size.width * 0.1),
+                        bottom: MediaQuery.of(context).size.width * 0.05),
                     child: Row(
                       children: [
                         const Text(
@@ -135,7 +135,7 @@ class _OrderAddingState extends State<OrderAdding> {
                       margin: EdgeInsets.only(
                           left: MediaQuery.of(context).size.width * 0.1,
                           right: MediaQuery.of(context).size.width * 0.1,
-                      bottom: MediaQuery.of(context).size.width * 0.1),
+                      bottom: MediaQuery.of(context).size.width * 0.05),
                       child: Row(
                         children: [
                           const Text(
@@ -158,66 +158,65 @@ class _OrderAddingState extends State<OrderAdding> {
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             Expanded(
-                child: Container(
-                    child: ListView.builder(
+                child: ListView.builder(
               itemCount: articlesControllers.length,
               itemBuilder: (context, index) {
                 return MediaQuery(
-                    data: MediaQuery.of(context).copyWith(),
-                    child: Row(
-                      children: [
-                        Container(
-                            margin: EdgeInsets.all(
-                                MediaQuery.of(context).size.width * 0.02),
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            height: 60,
-                            child: TextField(
-                              controller: articlesControllers[index],
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: 'Article',
-                                  labelText: 'Article'),
-                            )),
-                        Container(
-                            margin: EdgeInsets.all(
-                                MediaQuery.of(context).size.width * 0.02),
-                            width: MediaQuery.of(context).size.width * 0.15,
-                            height: 50,
-                            child: TextField(
-                              controller: numbersControllers[index],
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: 'Nombre',
-                                  labelText: 'Nombre'),
-                              keyboardType: TextInputType.number,
-                            )),
-                        Container(
-                            margin: EdgeInsets.all(
-                                MediaQuery.of(context).size.width * 0.02),
-                            width: MediaQuery.of(context).size.width * 0.25,
-                            height: 50,
-                            child: TextField(
-                              controller: pricesControllers[index],
-                              onChanged: (_) => calculTotal(),
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: 'Prix',
-                                  labelText: 'Prix unitiare'),
-                              keyboardType: TextInputType.number,
-                            )),
-                        IconButton(
-                            onPressed: () {
-                              setState(() {
-                                articlesControllers.removeAt(index);
-                                pricesControllers.removeAt(index);
-                                numbersControllers.removeAt(index);
-                              });
-                            },
-                            icon: const Icon(Icons.delete)),
-                      ],
-                    ));
+                data: MediaQuery.of(context).copyWith(),
+                child: Row(
+                  children: [
+                    Container(
+                        margin: EdgeInsets.all(
+                            MediaQuery.of(context).size.width * 0.02),
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        height: 60,
+                        child: TextField(
+                          controller: articlesControllers[index],
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Article',
+                              labelText: 'Article'),
+                        )),
+                    Container(
+                        margin: EdgeInsets.all(
+                            MediaQuery.of(context).size.width * 0.02),
+                        width: MediaQuery.of(context).size.width * 0.15,
+                        height: 50,
+                        child: TextField(
+                          controller: numbersControllers[index],
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Nombre',
+                              labelText: 'Nombre'),
+                          keyboardType: TextInputType.number,
+                        )),
+                    Container(
+                        margin: EdgeInsets.all(
+                            MediaQuery.of(context).size.width * 0.02),
+                        width: MediaQuery.of(context).size.width * 0.25,
+                        height: 50,
+                        child: TextField(
+                          controller: pricesControllers[index],
+                          onChanged: (_) => calculTotal(),
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Prix',
+                              labelText: 'Prix unitiare'),
+                          keyboardType: TextInputType.number,
+                        )),
+                    IconButton(
+                        onPressed: () {
+                          setState(() {
+                            articlesControllers.removeAt(index);
+                            pricesControllers.removeAt(index);
+                            numbersControllers.removeAt(index);
+                          });
+                        },
+                        icon: const Icon(Icons.delete)),
+                  ],
+                ));
               },
-            ))),
+            )),
             Container(
                 padding: const EdgeInsets.fromLTRB(100, 8, 100, 8),
                 decoration:
