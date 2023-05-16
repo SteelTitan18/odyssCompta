@@ -2,13 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-Future<void> order_adding(String details, int total, String deliveryDate, bool paid, bool delivered) async {
+Future<void> order_adding(String client, String details, int total, String deliveryDate, bool paid, bool delivered) async {
   CollectionReference orders = FirebaseFirestore.instance.collection('orders');
   DocumentReference accounts = FirebaseFirestore.instance.collection('accounts').doc('accounts');
   if (paid == true) {
   accounts.update({'fund': FieldValue.increment(total)});
   }
   orders.add({
+    'customer': client,
     'details': details,
     'delivery_date': deliveryDate,
     'amount': total,

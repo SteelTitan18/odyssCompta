@@ -13,6 +13,7 @@ class OrderAdding extends StatefulWidget {
 class _OrderAddingState extends State<OrderAdding> {
   static const title = 'Nouvelle commande';
   final date = TextEditingController(text: DateTime.now().toString());
+  final customer = TextEditingController();
   bool paid = false;
   bool delivered = false;
 
@@ -71,7 +72,16 @@ class _OrderAddingState extends State<OrderAdding> {
         body: Column(
           children: <Widget>[
             Container(
-                padding: const EdgeInsets.fromLTRB(16, 100, 16, 16),
+              padding: const EdgeInsets.fromLTRB(16, 50, 16, 16),
+              child: TextField(
+                  controller: customer, //editing controller of this TextField
+                  decoration: const InputDecoration(
+                      icon: Icon(Icons.person), //icon of text field
+                      labelText: "Client" //label text of field
+                      )),
+            ),
+            Container(
+                padding: const EdgeInsets.all(16),
                 child: TextField(
                   controller: date, //editing controller of this TextField
                   decoration: const InputDecoration(
@@ -90,8 +100,16 @@ class _OrderAddingState extends State<OrderAdding> {
                     if (pickedDate != null) {
                       print(
                           pickedDate); //get the picked date in the format => 2022-07-04 00:00:00.000
-                      String formattedDate =
-                          "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}"; // format date in required form here we use yyyy-MM-dd that means time is removed
+                      // format date in required form here we use yyyy-MM-dd that means time is removed
+                      var month = pickedDate.month.toString();
+                      var day = pickedDate.day.toString();
+                      if (pickedDate.month < 10) {
+                        month = "0${pickedDate.month}";
+                      }
+                      if (pickedDate.day < 10) {
+                        day = "0${pickedDate.day}";
+                      }
+                      String formattedDate = "${pickedDate.year}-$month-$day";
                       print(
                           formattedDate); //formatted date output using intl package =>  2022-07-04
                       //You can format date as per your need
@@ -135,7 +153,7 @@ class _OrderAddingState extends State<OrderAdding> {
                       margin: EdgeInsets.only(
                           left: MediaQuery.of(context).size.width * 0.1,
                           right: MediaQuery.of(context).size.width * 0.1,
-                      bottom: MediaQuery.of(context).size.width * 0.05),
+                          bottom: MediaQuery.of(context).size.width * 0.05),
                       child: Row(
                         children: [
                           const Text(
@@ -162,65 +180,66 @@ class _OrderAddingState extends State<OrderAdding> {
               itemCount: articlesControllers.length,
               itemBuilder: (context, index) {
                 return MediaQuery(
-                data: MediaQuery.of(context).copyWith(),
-                child: Row(
-                  children: [
-                    Container(
-                        margin: EdgeInsets.all(
-                            MediaQuery.of(context).size.width * 0.02),
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        height: 60,
-                        child: TextField(
-                          controller: articlesControllers[index],
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Article',
-                              labelText: 'Article'),
-                        )),
-                    Container(
-                        margin: EdgeInsets.all(
-                            MediaQuery.of(context).size.width * 0.02),
-                        width: MediaQuery.of(context).size.width * 0.15,
-                        height: 50,
-                        child: TextField(
-                          controller: numbersControllers[index],
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Nombre',
-                              labelText: 'Nombre'),
-                          keyboardType: TextInputType.number,
-                        )),
-                    Container(
-                        margin: EdgeInsets.all(
-                            MediaQuery.of(context).size.width * 0.02),
-                        width: MediaQuery.of(context).size.width * 0.25,
-                        height: 50,
-                        child: TextField(
-                          controller: pricesControllers[index],
-                          onChanged: (_) => calculTotal(),
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Prix',
-                              labelText: 'Prix unitiare'),
-                          keyboardType: TextInputType.number,
-                        )),
-                    IconButton(
-                        onPressed: () {
-                          setState(() {
-                            articlesControllers.removeAt(index);
-                            pricesControllers.removeAt(index);
-                            numbersControllers.removeAt(index);
-                          });
-                        },
-                        icon: const Icon(Icons.delete)),
-                  ],
-                ));
+                    data: MediaQuery.of(context).copyWith(),
+                    child: Row(
+                      children: [
+                        Container(
+                            margin: EdgeInsets.all(
+                                MediaQuery.of(context).size.width * 0.02),
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            height: 60,
+                            child: TextField(
+                              controller: articlesControllers[index],
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Article',
+                                  labelText: 'Article'),
+                            )),
+                        Container(
+                            margin: EdgeInsets.all(
+                                MediaQuery.of(context).size.width * 0.02),
+                            width: MediaQuery.of(context).size.width * 0.15,
+                            height: 50,
+                            child: TextField(
+                              controller: numbersControllers[index],
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Nombre',
+                                  labelText: 'Nombre'),
+                              keyboardType: TextInputType.number,
+                            )),
+                        Container(
+                            margin: EdgeInsets.all(
+                                MediaQuery.of(context).size.width * 0.02),
+                            width: MediaQuery.of(context).size.width * 0.25,
+                            height: 50,
+                            child: TextField(
+                              controller: pricesControllers[index],
+                              onChanged: (_) => calculTotal(),
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Prix',
+                                  labelText: 'Prix unitiare'),
+                              keyboardType: TextInputType.number,
+                            )),
+                        IconButton(
+                            onPressed: () {
+                              setState(() {
+                                articlesControllers.removeAt(index);
+                                pricesControllers.removeAt(index);
+                                numbersControllers.removeAt(index);
+                              });
+                            },
+                            icon: const Icon(Icons.delete)),
+                      ],
+                    ));
               },
             )),
             Container(
                 padding: const EdgeInsets.fromLTRB(100, 8, 100, 8),
-                decoration:
-                BoxDecoration(borderRadius: BorderRadius.circular(10), color: const Color(0xffFF7F50)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color(0xffFF7F50)),
                 child: Text(
                   style: const TextStyle(fontSize: 20, color: Colors.white),
                   "Total : $total",
@@ -234,23 +253,23 @@ class _OrderAddingState extends State<OrderAdding> {
                   var details = "";
                   var total = 0;
                   var deliveryDate = date.text;
+                  var client = customer.text;
 
                   for (cpt = 0; cpt < articlesControllers.length; cpt++) {
-                    if (articlesControllers[cpt].text != "" && numbersControllers[cpt].text != "" && pricesControllers[cpt].text != "") {
+                    if (articlesControllers[cpt].text != "" &&
+                        numbersControllers[cpt].text != "" &&
+                        pricesControllers[cpt].text != "") {
                       details +=
-                      " ${articlesControllers[cpt]
-                          .text} x${numbersControllers[cpt]
-                          .text} à ${pricesControllers[cpt].text} l'unité ;";
+                          " ${articlesControllers[cpt].text} x${numbersControllers[cpt].text} à ${pricesControllers[cpt].text} l'unité ;";
                       total += int.parse(pricesControllers[cpt].text) *
                           int.parse(numbersControllers[cpt].text);
                     }
                   }
-                  order_adding(details, total, deliveryDate, paid, delivered);
+                  order_adding(client, details, total, deliveryDate, paid, delivered);
 
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const Orders()),
+                    MaterialPageRoute(builder: (context) => const Orders()),
                   );
                 },
                 child: const Text('Enregistrer'),

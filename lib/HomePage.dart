@@ -90,6 +90,7 @@ class MyHomePage extends StatelessWidget {
                                     )),
                                 Text(
                                   "${cash['fund']}\tFCFA",
+                                  //"<<montant>>",
                                   style: const TextStyle(
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold,
