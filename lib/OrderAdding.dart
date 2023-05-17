@@ -199,7 +199,7 @@ class _OrderAddingState extends State<OrderAdding> {
                             margin: EdgeInsets.all(
                                 MediaQuery.of(context).size.width * 0.02),
                             width: MediaQuery.of(context).size.width * 0.15,
-                            height: 50,
+                            height: 60,
                             child: TextField(
                               controller: numbersControllers[index],
                               decoration: const InputDecoration(
@@ -212,7 +212,7 @@ class _OrderAddingState extends State<OrderAdding> {
                             margin: EdgeInsets.all(
                                 MediaQuery.of(context).size.width * 0.02),
                             width: MediaQuery.of(context).size.width * 0.25,
-                            height: 50,
+                            height: 60,
                             child: TextField(
                               controller: pricesControllers[index],
                               onChanged: (_) => calculTotal(),

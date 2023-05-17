@@ -76,7 +76,7 @@ class ResultPage extends StatelessWidget {
         default:
           break;
       }
-      selling_details = '\n$selling_details$article : ${providerRecette.ventes[article_i]}';
+      selling_details = '\n$selling_details$article : ${providerRecette.ventes[article_i]}\n';
     }
 
     dico = {

@@ -10,8 +10,14 @@ import 'Selling.dart';
 import 'Simple_Buying.dart';
 import 'main.dart';
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<MyHomePage> {
   final String title = "Odyssée des Saveurs";
 
   @override
@@ -235,8 +241,9 @@ class MyHomePage extends StatelessWidget {
                               color: Color(0xffffffff),
                             ),
                           ),
-                        )))
+                        ))),
               ])))
-        ]));
+        ]),
+    );
   }
 }

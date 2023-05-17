@@ -67,10 +67,20 @@ class _OrdersState extends State<Orders> {
                               child: ListTile(
                                 title:
                                     Text("Client: ${document['customer']}\n"),
-                                subtitle: Column(children: [
-                                  Text(
-                                    (document['details'].split(';')).join('\n'),
-                                  ),
+                                subtitle: RichText(
+                                    text: TextSpan(
+                                        text: (document['details'].split(';'))
+                                            .join('\n'),
+                                        style: const TextStyle(
+                                            color: Colors.black),
+                                        children: <TextSpan>[
+                                      TextSpan(
+                                          text:
+                                              "\nA livrer le ${document['delivery_date']}",
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold))
+                                    ])),
+                                trailing: Column(children: [
                                   Text(
                                     "${document['amount'].toString()} FCFA",
                                     style: const TextStyle(
@@ -94,25 +104,31 @@ class _OrdersState extends State<Orders> {
                                             ? Colors.green
                                             : Colors.orangeAccent),
                                   ),
-                                  Text(
-                                      "\nA livrer le ${document['delivery_date']}"),
                                 ]),
-                                trailing: PopupMenuButton(
+                                leading: PopupMenuButton(
                                     itemBuilder: (BuildContext context) {
-                                  return const [
+                                  return [
                                     PopupMenuItem(
                                       value: 0,
                                       child: ListTile(
-                                          leading: Icon(Icons.delivery_dining),
-                                          title: Text("Livrer")),
+                                          leading: Icon(document['delivered']
+                                              ? Icons.cancel_outlined
+                                              : Icons.delivery_dining),
+                                          title: Text(document['delivered']
+                                              ? "Annuler la livraison"
+                                              : "Livrer")),
                                     ),
                                     PopupMenuItem(
                                       value: 1,
                                       child: ListTile(
-                                          leading: Icon(Icons.payments),
-                                          title: Text("Valider le payement")),
+                                          leading: Icon(document['paid']
+                                              ? Icons.cancel_outlined
+                                              : Icons.payments),
+                                          title: Text(document['paid']
+                                              ? "Annuler le paiement"
+                                              : "Valider le paiement")),
                                     ),
-                                    PopupMenuItem(
+                                    const PopupMenuItem(
                                       value: 2,
                                       child: ListTile(
                                           leading: Icon(Icons.delete),
@@ -123,23 +139,37 @@ class _OrdersState extends State<Orders> {
                                     // on selected we show the dialog box
                                     onSelected: (value) {
                                   // if value 1 show dialog
-                                      CollectionReference orders = FirebaseFirestore.instance.collection('orders');
-                                      CollectionReference accounts = FirebaseFirestore.instance.collection('accounts');
+                                  CollectionReference orders = FirebaseFirestore
+                                      .instance
+                                      .collection('orders');
+                                  CollectionReference accounts =
+                                      FirebaseFirestore.instance
+                                          .collection('accounts');
                                   if (value == 0) {
                                     setState(() {
-                                        orders.doc(document.id).update(
-                                            {'delivered': true});
+                                      orders.doc(document.id).update({
+                                        'delivered': !document['delivered']
+                                      });
                                     });
                                     // if value 2 show dialog
                                   } else if (value == 1) {
                                     setState(() {
-                                      orders.doc(document.id).update(
-                                          {'paid': true});
-                                      accounts.doc('accounts').update(
-                                          {'fund': FieldValue.increment(document['amount'])});
+                                      orders
+                                          .doc(document.id)
+                                          .update({'paid': !document['paid']});
+                                      if (document['paid']) {
+                                        accounts.doc('accounts').update({
+                                          'fund': FieldValue.increment(
+                                              -document['amount'])
+                                        });
+                                      } else {
+                                        accounts.doc('accounts').update({
+                                          'fund': FieldValue.increment(
+                                              document['amount'])
+                                        });
+                                      }
                                     });
-                                  }
-                                  else {
+                                  } else {
                                     setState(() {
                                       orders.doc(document.id).delete();
                                     });
